@@ -2,12 +2,8 @@ import { addOptionalParameters } from "./helpers";
 import { HttpMethodError } from "./errors";
 import { json } from "@sveltejs/kit";
 
-const apiAddress = "https://localhost:7186";
+const apiAddress = "http://localhost:8000/api";
 
-/**
- * @param {string} route
- * @param {any} bodyToJsonize
- */
 export async function genericPost(
   route,
   bodyToJsonize,
@@ -38,9 +34,6 @@ export async function genericPost(
   return response;
 }
 
-/**
- * @param {string} route
- */
 export async function genericGetAll(route) {
   let url = apiAddress.concat(route);
   let response;
@@ -63,10 +56,6 @@ export async function genericGetAll(route) {
   }
   return response;
 }
-/**
- * @param {string} route
- * @param {string} id
- */
 export async function genericGetById(route, id) {
   let halfUrl = route + "/" + id;
   let url = apiAddress.concat(halfUrl);
@@ -90,10 +79,6 @@ export async function genericGetById(route, id) {
   }
   return response;
 }
-/**
- * @param {string} route
- * @param {string} id
- */
 export async function genericDelete(route, id) {
   let halfUrl = route + "/" + id;
   let url = apiAddress.concat(halfUrl);
@@ -117,11 +102,6 @@ export async function genericDelete(route, id) {
   }
   return response;
 }
-/**
- * @param {string} route
- * @param {string} id
- * @param {any} bodyToJsonize
- */
 export async function genericPut(
   route,
   id,
