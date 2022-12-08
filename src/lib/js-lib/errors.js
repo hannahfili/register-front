@@ -1,14 +1,11 @@
 export class HttpMethodError extends Error {
-  // @ts-ignore
   constructor(message, errors = null) {
     super(message);
     this.name = "HttpMethodError";
     this.message = message;
-    // @ts-ignore
     this.errorsList = errors;
   }
 }
-// @ts-ignore
 export function handleError(error, actionName) {
   let alert_message = "";
   if (error instanceof HttpMethodError) {
@@ -23,5 +20,5 @@ export function handleError(error, actionName) {
   } else if (error instanceof Error) {
     alert_message = `Wystąpił inny błąd: ${error.message}\n${error.stack}\nWykonywana akcja: [${actionName}]`;
   }
-  alert(alert_message);
+  // alert(alert_message);
 }

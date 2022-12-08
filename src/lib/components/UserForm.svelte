@@ -2,15 +2,17 @@
   import { setAllRolesToFalse } from "$lib/stores/RegisterUser.js";
   export let onSubmit = async () => {};
   export let updateMode;
-  export let UserDto = {
-    name: "",
-    surname: "",
-    email: "",
-    password: "",
-    isAdmin: false,
-    isStudent: false,
-    isTeacher: false,
-  };
+  export let UserDto;
+  // struktura UserDto = {
+  //   name: "",
+  //   surname: "",
+  //   email: "",
+  //   password: "",
+  //   isAdmin: false,
+  //   isStudent: false,
+  //   isTeacher: false,
+  // };
+
   let showErrorMessage = false;
   let password1;
   let password2;
@@ -48,19 +50,18 @@
   <form on:submit|preventDefault={async () => await validateAndSubmit()}>
     <div>
       <label for="user-name">Imię</label>
-      <input type="text" bind:value={UserDto.name} required />
+      <input type="text" bind:value={UserDto.name} required={!updateMode} />
       <label for="user-surname">Nazwisko</label>
-      <input type="text" bind:value={UserDto.surname} required />
+      <input type="text" bind:value={UserDto.surname} required={!updateMode} />
       <label for="user-email">Adres e-mail</label>
-      <input type="email" bind:value={UserDto.email} required />
+      <input type="email" bind:value={UserDto.email} required={!updateMode} />
       <label for="user-password-1">Podaj hasło</label>
       <input
         type="password"
         id="user-password-1"
         name="password-1"
-        ,
         minlength="8"
-        required
+        required={!updateMode}
         bind:value={password1}
       />
       <label for="user-password-2">Powtórz hasło</label>
@@ -69,7 +70,7 @@
         id="user-password-2"
         name="password-2"
         minlength="8"
-        required
+        required={!updateMode}
         bind:value={password2}
       />
       <select bind:value={chosenRole} disabled={updateMode}>
@@ -77,6 +78,16 @@
           <option value={role.id}>{role.name}</option>
         {/each}
       </select>
+      {#if updateMode}
+        Rola:
+        {#if UserDto.isAdmin == 1}
+          administrator
+        {:else if UserDto.isTeacher == true}
+          nauczyciel
+        {:else}
+          uczeń
+        {/if}
+      {/if}
       {#if showErrorMessage}
         <div class="error" id="password-error-message">
           {password_error_message}
