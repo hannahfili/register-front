@@ -102,11 +102,9 @@ export async function genericPut(
   };
 
   response = await fetch(url, fetchData);
-  let info = await response.json();
-  console.log(info);
-  // if (!response.ok) {
-  //   await handleNotOkResponse(response);
-  // }
+  if (!response.ok) {
+    await handleNotOkResponse(response);
+  }
 
   return response;
 }

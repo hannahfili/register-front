@@ -2,35 +2,59 @@
   /** @type {import('./$types').PageData} */
   export let data;
   import { onMount } from "svelte";
-  import { putUser, getUserById } from "../.././../../lib/stores/RegisterUser";
+  import {
+    putUser,
+    getUserById,
+    usersAreEqual,
+    prepareUserDtoForUpdate,
+  } from "../.././../../lib/stores/RegisterUser";
   import UserForm from "../../../../lib/components/UserForm.svelte";
   import { createUser } from "../../../../lib/stores/RegisterUser.js";
-  let UserDto = {
+  import { handleError } from "../../../../lib/js-lib/errors";
+  let UserDtoForUpdate = {
+    id: 0,
     name: "",
     surname: "",
     email: "",
     password: "",
-    isAdmin: false,
-    isStudent: false,
-    isTeacher: false,
   };
+  let UserDtoFromGet;
+  let PostPreparationUserDtoForUpadte; //będzie pobierać wartości z UserDto
   let userToUpdateId;
   onMount(async () => {
     userToUpdateId = data.id;
-    UserDto = await getUserById(userToUpdateId);
+    UserDtoFromGet = await getUserById(userToUpdateId);
+    delete UserDtoFromGet.isAdmin;
+    delete UserDtoFromGet.isTeacher;
+    delete UserDtoFromGet.isStudent;
+    UserDtoForUpdate = Object.assign({}, UserDtoFromGet);
   });
-  //DODAĆ SPRAWDZENIE USER_DTO ---> JEŻELI JAKIEŚ WARTOŚCI SĄ PUSTE/UNDEFINED, UZUPEŁNIĆ WARTOŚCIAMI Z GET_USER{ID}
   async function updateUserAndRedirect() {
-    let updateUserResponse = await putUser(userToUpdateId, UserDto);
+    try {
+      PostPreparationUserDtoForUpadte = prepareUserDtoForUpdate(
+        UserDtoFromGet,
+        UserDtoForUpdate
+      );
+    } catch (err) {
+      handleError(err, "Przygotowanie danych użytkownika do update'u");
+      window.location.reload();
+      return;
+    }
+    let updateUserResponse = await putUser(
+      userToUpdateId,
+      PostPreparationUserDtoForUpadte
+    );
     if (!(updateUserResponse instanceof Error)) {
       alert("Pomyślnie edytowano użytkownika");
       window.location.href = "/user/showAll";
+    } else {
+      window.location.reload();
     }
   }
 </script>
 
 <UserForm
   updateMode={true}
-  bind:UserDto
+  bind:UserDto={UserDtoForUpdate}
   onSubmit={async () => await updateUserAndRedirect()}
 />

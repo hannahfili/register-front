@@ -25,7 +25,9 @@
   async function validateAndSubmit() {
     if (password1 != password2) {
       showErrorMessage = true;
-    } else {
+      return;
+    }
+    if (!updateMode) {
       UserDto = setAllRolesToFalse(UserDto);
       switch (chosenRole) {
         case "admin":
@@ -38,9 +40,9 @@
           UserDto.isStudent = true;
           break;
       }
-      UserDto.password = password1;
-      await onSubmit();
     }
+    UserDto.password = password1;
+    await onSubmit();
   }
 
   let chosenRole;
@@ -73,11 +75,6 @@
         required={!updateMode}
         bind:value={password2}
       />
-      <select bind:value={chosenRole} disabled={updateMode}>
-        {#each roles as role}
-          <option value={role.id}>{role.name}</option>
-        {/each}
-      </select>
       {#if updateMode}
         Rola:
         {#if UserDto.isAdmin == 1}
@@ -87,6 +84,12 @@
         {:else}
           uczeń
         {/if}
+      {:else}
+        <select bind:value={chosenRole} disabled={updateMode}>
+          {#each roles as role}
+            <option value={role.id}>{role.name}</option>
+          {/each}
+        </select>
       {/if}
       {#if showErrorMessage}
         <div class="error" id="password-error-message">

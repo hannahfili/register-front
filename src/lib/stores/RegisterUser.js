@@ -7,30 +7,8 @@ import {
 } from "$lib/js-lib/httpMethods.js";
 import { handleError } from "../js-lib/errors";
 
-// let RegisterUserAdmin = {
-//   name: "",
-//   surname: "",
-//   email: "",
-//   password: "",
-//   isAdmin: true,
-// };
-// let RegisterUserStudent = {
-//   name: "",
-//   surname: "",
-//   email: "",
-//   password: "",
-//   isAdmin: false,
-//   isStudent: true,
-// };
-// let RegisterUserTeacher = {
-//   name: "",
-//   surname: "",
-//   email: "",
-//   password: "",
-//   isAdmin: false,
-//   isTeacher: true,
-// };
 let UserDto = {
+  id: 0,
   name: "",
   surname: "",
   email: "",
@@ -39,6 +17,76 @@ let UserDto = {
   isStudent: false,
   isTeacher: false,
 };
+export function usersAreEqual(user1, user2) {
+  if (
+    user1.id == user2.id &&
+    user1.name.toUpperCase() == user2.name.toUpperCase() &&
+    user1.surname.toUpperCase() == user2.surname.toUpperCase() &&
+    user1.email.toUpperCase() == user2.email.toUpperCase() &&
+    user1.password == user2.password &&
+    user1.isAdmin == user2.isAdmin &&
+    user1.isTeacher == user2.isTeacher &&
+    user1.isStudent == user2.isStudent
+  ) {
+    return true;
+  }
+  return false;
+}
+export function prepareUserDtoForUpdate(oldUser, newUser) {
+  oldUser.password = undefined;
+
+  if (usersAreEqual(oldUser, newUser)) {
+    throw new Error("Nowe dane powinny różnić się od starych");
+  }
+  if (typeof newUser.password == "undefined") {
+    delete newUser.password;
+  }
+  if (
+    newUser.name == "" ||
+    newUser.name.toUpperCase() == oldUser.name.toUpperCase()
+  ) {
+    delete newUser.name;
+  }
+  if (
+    newUser.surname == "" ||
+    newUser.surname.toUpperCase() == oldUser.surname.toUpperCase()
+  ) {
+    delete newUser.surname;
+  }
+  if (
+    newUser.email == "" ||
+    newUser.email.toUpperCase() == oldUser.email.toUpperCase()
+  ) {
+    delete newUser.email;
+  }
+  if (userDtoContainsOnlyId(newUser)) {
+    throw new Error("Brak danych do edycji, nie wpisano nowych danych");
+  }
+  return newUser;
+}
+export function userDtoContainsOnlyId(userDto) {
+  let propertyNames = [
+    "name",
+    "surname",
+    "email",
+    "password",
+    "isAdmin",
+    "isStudent",
+    "isTeacher",
+  ];
+  let userDtoContainsAtLeastOnePropertyOtherThanId = false;
+  for (let propName of propertyNames) {
+    if (objectHasProperty(userDto, propName)) {
+      userDtoContainsAtLeastOnePropertyOtherThanId = true;
+      break;
+    }
+  }
+  return !userDtoContainsAtLeastOnePropertyOtherThanId;
+}
+function objectHasProperty(objectInstance, propertyName) {
+  if (propertyName in objectInstance) return true;
+  return false;
+}
 export function setAllRolesToFalse(userDto) {
   userDto.isAdmin = false;
   userDto.isTeacher = false;
@@ -74,7 +122,6 @@ export async function deleteUser(userId) {
   return await response.json();
 }
 export async function putUser(id, userDto) {
-  console.log("putUser");
   let response;
   try {
     response = await genericPut("/users", id, userDto);
@@ -92,7 +139,6 @@ export async function getUserById(id) {
     handleError(err, "pobieranie Użytkownika na podstawie ID");
   }
   let json = await getUserByIdResult.json();
-  // console.log(json);
   return json.data;
 }
 // export async function putBuildingAddress(

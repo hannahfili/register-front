@@ -12,17 +12,11 @@
     isStudent: false,
     isTeacher: false,
   };
-  onMount(() => {
-    console.log("hello");
-  });
   async function createUserAndRedirect() {
     let createUserResponse = await createUser(UserDto);
-    // console.log(createUserResponse);
-    console.log(typeof createUserResponse);
     if (createUserResponse instanceof Error) {
       return;
     }
-    // console.log(createUserResponse);
     alert("Pomyślnie dodano użytkownika");
     goto(`/user/showAll`);
   }

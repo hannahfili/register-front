@@ -5,17 +5,22 @@
   import BaseList from "$lib/components/BaseList.svelte";
 
   let collection;
+  let collection_copy;
+
+  function changeBooleanToCellContent(boolValue) {
+    if (boolValue == true) return "TAK";
+    return "";
+  }
 
   onMount(async () => {
     collection = await getAllUsers();
     collection = collection.data;
-    for (let element of collection) {
-      if (element.isAdmin == 1) element.isAdmin = "TAK";
-      if (element.isAdmin == 0) element.isAdmin = "";
-      if (element.isTeacher == true) element.isTeacher = "TAK";
-      if (element.isStudent == true) element.isStudent = "TAK";
+    collection_copy = structuredClone(collection);
+    for (let element of collection_copy) {
+      element.isAdmin = changeBooleanToCellContent(element.isAdmin);
+      element.isTeacher = changeBooleanToCellContent(element.isTeacher);
+      element.isStudent = changeBooleanToCellContent(element.isStudent);
     }
-    // console.log(collection);
   });
 
   const headerDictionary = {
@@ -48,7 +53,7 @@
 </script>
 
 <BaseList
-  {collection}
+  collection={collection_copy}
   {headerDictionary}
   on:listAdd={addHandler}
   on:listDetail={detailHandler}

@@ -18,7 +18,8 @@ export function handleError(error, actionName) {
     }
     alert_message = `Błąd HTTP przy wysyłaniu danych!\nWykonywana akcja: [${actionName}]\nInformacje o błędzie:\n${error.message}\n${displayErrors}`;
   } else if (error instanceof Error) {
-    alert_message = `Wystąpił inny błąd: ${error.message}\n${error.stack}\nWykonywana akcja: [${actionName}]`;
+    // alert_message = `Wystąpił inny błąd: ${error.message}\n${error.stack}\nWykonywana akcja: [${actionName}]`;
+    alert_message = `Wystąpił inny błąd: ${error.message}\nWykonywana akcja: [${actionName}]`;
   }
-  // alert(alert_message);
+  alert(alert_message);
 }
