@@ -1,35 +1,44 @@
 <script>
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
-  import { getAllUsers, deleteUser } from "../../../lib/stores/RegisterUser";
+  import {
+    getAllClasses,
+    deleteClass,
+    showNameRelatedToCurrentYear,
+  } from "../../../lib/stores/SchoolClass";
   import BaseList from "$lib/components/BaseList.svelte";
 
   let collection;
   let collection_copy;
-
-  function changeBooleanToCellContent(boolValue) {
-    if (boolValue == true) return "TAK";
-    return "";
-  }
+  let showDetailButton = true;
 
   onMount(async () => {
-    collection = await getAllUsers();
+    let today = new Date();
+    collection = await getAllClasses();
     collection = collection.data;
     collection_copy = structuredClone(collection);
     for (let element of collection_copy) {
-      element.isAdmin = changeBooleanToCellContent(element.isAdmin);
-      element.isTeacher = changeBooleanToCellContent(element.isTeacher);
-      element.isStudent = changeBooleanToCellContent(element.isStudent);
+      element.name = showNameRelatedToCurrentYear(
+        element.class_start,
+        element.name
+      );
+      if (new Date(element.class_end) < today) {
+      }
     }
+    for (var i = collection_copy.length - 1; i >= 0; i--) {
+      let collection_element = collection_copy[i];
+      let school_class_end = collection_element.class_end;
+      if (new Date(school_class_end) < today) {
+        collection_copy.splice(i, 1);
+      }
+    }
+    console.log(collection_copy);
   });
 
   const headerDictionary = {
-    Imię: "name",
-    Nazwisko: "surname",
-    Email: "email",
-    Administrator: "isAdmin",
-    Nauczyciel: "isTeacher",
-    Uczeń: "isStudent",
+    Nazwa: "name",
+    "Rok rozpoczęcia": "class_start",
+    "Rok zakończenia": "class_end",
   };
 
   function addHandler(event) {
@@ -38,14 +47,14 @@
   }
 
   function detailHandler(event) {
-    goto(`/user/update/${event.detail.row.id}`);
+    goto(`/class/details/${event.detail.row.id}`);
   }
 
   async function deleteHandler(event) {
-    if (confirm("Czy na pewno chcesz usunąć tego użytkownika?")) {
-      let deleteResult = await deleteUser(event.detail.row.id);
+    if (confirm("Czy na pewno chcesz wybraną klasę?")) {
+      let deleteResult = await deleteClass(event.detail.row.id);
       if (!(deleteResult instanceof Error)) {
-        alert("Pomyślnie usunięto użytkownika");
+        alert("Pomyślnie usunięto klasę");
       }
       window.location.reload();
     }
@@ -59,11 +68,11 @@
 
 <BaseList
   collection={collection_copy}
-  {headerDictionary}
-  firstButtonName={"Edytuj"}
+  firstButtonName={"Szczegóły"}
   firstButtonVisibility={true}
   secondButtonName={"Usuń"}
   secondButtonVisibility={true}
+  {headerDictionary}
   addNewVisibility={true}
   on:listAdd={addHandler}
   on:listDetail={detailHandler}

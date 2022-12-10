@@ -3,6 +3,11 @@
 
   export let collection = [];
   export let headerDictionary = {};
+  export let firstButtonName;
+  export let secondButtonName;
+  export let firstButtonVisibility;
+  export let secondButtonVisibility;
+  export let addNewVisibility;
 
   let dispatch = createEventDispatcher();
   let isAllChecked = false;
@@ -67,9 +72,10 @@
 
 <br />
 
-<button on:click={onDeleteSelected}>Usuń</button>
-<button on:click={onAdd}>Dodaj</button>
-
+<!-- <button on:click={onDeleteSelected}>Usuń</button> -->
+{#if addNewVisibility}
+  <button on:click={onAdd}>Dodaj</button>
+{/if}
 <table>
   <tr>
     <!-- <th>
@@ -91,12 +97,16 @@
       {#each getHeaderProperties() as property}
         <td>{getDataFromRow(row, property)}</td>
       {/each}
-      <td>
-        <button on:click={onDetail(row)}> Edytuj </button>
-      </td>
-      <td>
-        <button on:click={onDelete(row)}> Usuń </button>
-      </td>
+      {#if firstButtonVisibility}
+        <td>
+          <button on:click={onDetail(row)}>{firstButtonName}</button>
+        </td>
+      {/if}
+      {#if secondButtonVisibility}
+        <td>
+          <button on:click={onDelete(row)}> {secondButtonName} </button>
+        </td>
+      {/if}
     </tr>
   {/each}
 </table>
