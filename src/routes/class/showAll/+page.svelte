@@ -74,6 +74,7 @@
   secondButtonVisibility={true}
   {headerDictionary}
   addNewVisibility={true}
+  addNewName={"Dodaj"}
   on:listAdd={addHandler}
   on:listDetail={detailHandler}
   on:listDelete={deleteHandler}

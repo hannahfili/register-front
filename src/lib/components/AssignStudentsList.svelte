@@ -8,7 +8,6 @@
   export let firstButtonVisibility;
   export let secondButtonVisibility;
   export let addNewVisibility;
-  export let addNewName;
 
   let dispatch = createEventDispatcher();
   let isAllChecked = false;
@@ -32,14 +31,14 @@
     dispatch("listDelete", { row });
   }
 
-  function onDeleteSelected() {
+  function onAssignSelected() {
     let rows = [];
     for (let i = 0; i < checkCollection.length; i++) {
       if (checkCollection[i] == true) {
         rows.push(collection[i]);
       }
     }
-    dispatch("listDeleteSelected", { rows });
+    dispatch("listAssignSelected", { rows });
   }
 
   function getHeaderNames() {
@@ -66,35 +65,34 @@
       if (result == null) return "";
       result = Reflect.get(result, props[i]);
     }
-    console.log(result);
     return result ?? "";
   }
 </script>
 
 <br />
 
-<!-- <button on:click={onDeleteSelected}>Usuń</button> -->
+<button on:click={onAssignSelected}>Przypisz zaznaczonych uczniów</button>
 {#if addNewVisibility}
-  <button on:click={onAdd}>{addNewName}</button>
+  <button on:click={onAdd}>Dodaj</button>
 {/if}
 <table>
   <tr>
-    <!-- <th>
-            <input
-                type="checkbox"
-                bind:checked={isAllChecked}
-                on:change={setCheckCollection(isAllChecked)}
-            />
-        </th> -->
+    <th>
+      <input
+        type="checkbox"
+        bind:checked={isAllChecked}
+        on:change={setCheckCollection(isAllChecked)}
+      />
+    </th>
     {#each getHeaderNames() as header}
       <th>{header}</th>
     {/each}
   </tr>
   {#each collection as row, i}
     <tr>
-      <!-- <td>
+      <td>
         <input type="checkbox" bind:checked={checkCollection[i]} />
-      </td> -->
+      </td>
       {#each getHeaderProperties() as property}
         <td>{getDataFromRow(row, property)}</td>
       {/each}

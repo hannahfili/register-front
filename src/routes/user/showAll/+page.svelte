@@ -65,6 +65,7 @@
   secondButtonName={"Usuń"}
   secondButtonVisibility={true}
   addNewVisibility={true}
+  addNewName={"Dodaj"}
   on:listAdd={addHandler}
   on:listDetail={detailHandler}
   on:listDelete={deleteHandler}

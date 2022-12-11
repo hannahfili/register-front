@@ -21,6 +21,7 @@
   let schoolClassNameForDisplay;
   let students;
   let studentsForDisplay = [];
+  
 
   let headerDictionary = {
     "ID studenta": "id",
@@ -50,8 +51,7 @@
     // console.log(studentsForDisplay.length);
   });
   function addHandler(event) {
-    // goto(`/user/add`);
-    // window.location.href("/user/add");
+    goto(`/student/assign_to_class/${schoolClassId}`);
   }
 
   function detailHandler(event) {
@@ -89,13 +89,13 @@
     secondButtonName={"Usuń z tej klasy"}
     secondButtonVisibility={true}
     {headerDictionary}
-    addNewVisibility={false}
+    addNewVisibility={true}
+    addNewName={"Przypisz uczniów do klasy"}
     on:listAdd={addHandler}
     on:listDetail={detailHandler}
     on:listDelete={deleteHandler}
     on:listDeleteSelected={deleteSelectedHandler}
   />
-  <br>
+  <br />
   Przedmioty przypisane do klasy:
-  
 </div>
