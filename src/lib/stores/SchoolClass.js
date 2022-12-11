@@ -23,7 +23,7 @@ export function showNameRelatedToCurrentYear(class_start, class_name) {
   var ageDate = new Date(ageDifMs); // miliseconds from epoch
   let years = Math.abs(ageDate.getUTCFullYear() - 1970);
 
-  console.log(years);
+  // console.log(years);
   return years + 1 + " " + class_name;
 }
 export async function dischargeStudentFromClass(studentId) {
@@ -36,6 +36,7 @@ export async function dischargeStudentFromClass(studentId) {
     handleError(err, "usuwanie ucznia z klasy");
     return err;
   }
+  return await response.json();
 }
 
 export async function createClass(classDTO) {
@@ -47,6 +48,7 @@ export async function createClass(classDTO) {
     handleError(err, "dodawanie klasy");
     return err;
   }
+  return await response.json();
 }
 export async function getAllClasses() {
   let response;
