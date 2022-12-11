@@ -42,7 +42,7 @@
   };
 
   function addHandler(event) {
-    goto(`/user/add`);
+    goto(`/class/add`);
     // window.location.href("/user/add");
   }
 

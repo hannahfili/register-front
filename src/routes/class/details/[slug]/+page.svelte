@@ -8,6 +8,7 @@
     deleteClass,
     getClassById,
     showNameRelatedToCurrentYear,
+    dischargeStudentFromClass,
   } from "../../../../lib/stores/SchoolClass";
   import BaseList from "$lib/components/BaseList.svelte";
   let schoolClass = {
@@ -23,9 +24,9 @@
 
   let headerDictionary = {
     "ID studenta": "id",
-    Imię: "name",
-    Nazwisko: "surname",
-    Email: "email",
+    Imię: "user.name",
+    Nazwisko: "user.surname",
+    Email: "user.email",
   };
 
   onMount(async () => {
@@ -36,16 +37,17 @@
       schoolClass.name
     );
     students = schoolClass.students;
-    for (let student of students) {
-      let studentForDisplay = {
-        id: student.id,
-        name: student.user.name,
-        surname: student.user.surname,
-        email: student.user.email,
-      };
-      studentsForDisplay.push(studentForDisplay);
-    }
-    console.log(studentsForDisplay);
+    // for (let student of students) {
+    //   let studentForDisplay = {
+    //     id: student.id,
+    //     name: student.user.name,
+    //     surname: student.user.surname,
+    //     email: student.user.email,
+    //   };
+    //   studentsForDisplay.push(studentForDisplay);
+    // }
+    // console.log(studentsForDisplay);
+    // console.log(studentsForDisplay.length);
   });
   function addHandler(event) {
     // goto(`/user/add`);
@@ -57,10 +59,10 @@
   }
 
   async function deleteHandler(event) {
-    if (confirm("Czy na pewno chcesz wybraną klasę?")) {
-      let deleteResult = await deleteClass(event.detail.row.id);
+    if (confirm("Czy na pewno chcesz usunąć wybranego ucznia z tej klasy?")) {
+      let deleteResult = await dischargeStudentFromClass(event.detail.row.id);
       if (!(deleteResult instanceof Error)) {
-        alert("Pomyślnie usunięto klasę");
+        alert("Pomyślnie usunięto ucznia z wybranej klasy");
       }
       window.location.reload();
     }
@@ -81,7 +83,7 @@
   <br />
   Uczniowe:
   <BaseList
-    collection={studentsForDisplay}
+    collection={students}
     firstButtonName={"Szczegóły"}
     firstButtonVisibility={false}
     secondButtonName={"Usuń z tej klasy"}
@@ -93,4 +95,7 @@
     on:listDelete={deleteHandler}
     on:listDeleteSelected={deleteSelectedHandler}
   />
+  <br>
+  Przedmioty przypisane do klasy:
+  
 </div>

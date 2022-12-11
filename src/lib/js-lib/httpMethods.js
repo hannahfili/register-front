@@ -28,6 +28,26 @@ export async function genericPost(
 
   return response;
 }
+export async function genericPostWithoutBody(route) {
+  let response;
+  let url = apiAddress.concat(route);
+  // url = addOptionalParameters(url, optionalParameters);
+
+  let fetchData = {
+    method: "POST",
+    // body: JSON.stringify(bodyToJsonize),
+    headers: new Headers({
+      "content-type": "application/json",
+    }),
+  };
+
+  response = await fetch(url, fetchData);
+  if (!response.ok) {
+    await handleNotOkResponse(response);
+  }
+
+  return response;
+}
 
 export async function genericGetAll(route) {
   let url = apiAddress.concat(route);

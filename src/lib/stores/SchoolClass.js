@@ -4,6 +4,7 @@ import {
   genericDelete,
   genericPut,
   genericGetById,
+  genericPostWithoutBody,
 } from "$lib/js-lib/httpMethods.js";
 import { handleError } from "../js-lib/errors";
 
@@ -16,11 +17,25 @@ const ROUTE = "/school_classes";
 
 export function showNameRelatedToCurrentYear(class_start, class_name) {
   let ageDifMs = Date.now() - new Date(class_start);
+  if (ageDifMs < 0) {
+    return "0 " + class_name;
+  }
   var ageDate = new Date(ageDifMs); // miliseconds from epoch
   let years = Math.abs(ageDate.getUTCFullYear() - 1970);
 
   console.log(years);
-  return years + " " + class_name;
+  return years + 1 + " " + class_name;
+}
+export async function dischargeStudentFromClass(studentId) {
+  let response;
+  let route = "/discharge_student_from_class/" + studentId;
+  try {
+    response = await genericPostWithoutBody(route);
+    return await response.json();
+  } catch (err) {
+    handleError(err, "usuwanie ucznia z klasy");
+    return err;
+  }
 }
 
 export async function createClass(classDTO) {
