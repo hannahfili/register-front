@@ -73,7 +73,7 @@ export async function genericGetById(route, id) {
   let fetchData = {
     method: "GET",
     headers: new Headers({
-      "content-type": "application/json",
+      // "content-type": "application/json",
     }),
   };
 

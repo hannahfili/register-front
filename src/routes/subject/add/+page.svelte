@@ -3,12 +3,22 @@
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import SubjectForm from "../../../lib/components/SubjectForm.svelte";
+  import { getTeachersNotAssignedToAnySubject } from "../../../lib/stores/Teacher";
+  import {
+    createSubject,
+    assignSubjectToTeacher,
+  } from "../../../lib/stores/Subject.js";
   let SubjectDTO = {
     name: "",
     description: "",
   };
-  let teachers = [];
-  let teacherUserId;
+  let teachers;
+  let teacherId;
+  onMount(async () => {
+    teachers = await getTeachersNotAssignedToAnySubject();
+    teachers = teachers.data;
+    console.log(teachers);
+  });
 
   async function createSubjectAndRedirect() {
     let createSubjectResponse = await createSubject(SubjectDTO);
@@ -17,28 +27,24 @@
       return;
     }
     alert("Pomyślnie dodano przedmiot");
+    let newSubjectId = createSubjectResponse.data.id;
+    if (teacherId == undefined) return;
 
-    let subjectId = 1;
+    if (
+      (await assignSubjectToTeacher(teacherId, newSubjectId)) instanceof Error
+    )
+      return;
 
-    // if (assignSubjectToTeacher(teacherUserId, subjectId))
-    //   alert("Pomyślnie przypisano przedmiot do nauczyciela");
-
-    // goto(`/subject/showAll`);
-  }
-  async function assignSubjectToTeacher(userId, subjectId) {
-    let UserDto = {
-      subject_id: subjectId,
-    };
-    let updateResult = await putUser(userId, UserDto);
-    if (!(updateResult instanceof Error)) return true;
-    return false;
+    alert("Pomyślnie przypisano przedmiot do nauczyciela");
+    goto(`/subject/showAll`);
   }
 </script>
 
-<div>hello</div>
+<!-- <div>hello</div> -->
 <SubjectForm
   updateMode={false}
-  bind:teacherId={teacherUserId}
+  {teachers}
+  bind:teacherId
   bind:SubjectDTO
   onSubmit={async () => createSubjectAndRedirect()}
 />
