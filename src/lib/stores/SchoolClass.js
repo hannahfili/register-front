@@ -31,7 +31,6 @@ export async function dischargeStudentFromClass(studentId) {
   let route = "/discharge_student_from_class/" + studentId;
   try {
     response = await genericPostWithoutBody(route);
-    return await response.json();
   } catch (err) {
     handleError(err, "usuwanie ucznia z klasy");
     return err;

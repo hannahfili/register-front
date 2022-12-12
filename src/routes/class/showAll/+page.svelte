@@ -51,7 +51,7 @@
   }
 
   async function deleteHandler(event) {
-    if (confirm("Czy na pewno chcesz wybraną klasę?")) {
+    if (confirm("Czy na pewno chcesz usunąć wybraną klasę?")) {
       let deleteResult = await deleteClass(event.detail.row.id);
       if (!(deleteResult instanceof Error)) {
         alert("Pomyślnie usunięto klasę");

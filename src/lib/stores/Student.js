@@ -10,7 +10,7 @@ import { handleError } from "../js-lib/errors";
 const ROUTE = "/students";
 export async function getAllStudents() {
   let response;
-  let route = (ROUTE = "/getAll");
+  let route = ROUTE + "/getAll";
   try {
     response = await genericGetAll(route);
   } catch (err) {
