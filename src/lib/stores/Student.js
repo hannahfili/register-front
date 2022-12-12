@@ -53,3 +53,4 @@ export async function assignOneStudentToClass(studentId, classId) {
   }
   return await response.json();
 }
+export async function getSubjectsAssignedToThisStudent(studentId) {}

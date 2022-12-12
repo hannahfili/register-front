@@ -2,6 +2,7 @@
 export function load({ params }) {
   console.log(params);
   return {
-    id: params.slug,
+    class_id: params.slug,
+    subject_id: params.id,
   };
 }

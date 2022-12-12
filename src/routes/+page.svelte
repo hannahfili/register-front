@@ -13,6 +13,7 @@
   <a href="/user/showAll">Użytkownicy</a>
   <a href="/class/showAll">Klasy</a>
   <a href="/subject/showAll">Przedmioty</a>
+  <a href="/marks">Oceny</a>
 </section>
 
 <style>
