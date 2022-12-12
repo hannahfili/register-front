@@ -53,8 +53,11 @@
   }
 </script>
 
-<UserForm
-  updateMode={true}
-  bind:UserDto={UserDtoForUpdate}
-  onSubmit={async () => await updateUserAndRedirect()}
-/>
+<div>
+  <a href="/user/showAll">Wszyscy Użytkownicy</a>
+  <UserForm
+    updateMode={true}
+    bind:UserDto={UserDtoForUpdate}
+    onSubmit={async () => await updateUserAndRedirect()}
+  />
+</div>

@@ -12,4 +12,7 @@
   }
 </script>
 
-<ClassForm bind:ClassDTO onSubmit={async () => createClassAndRedirect()} />
+<div>
+  <a href="/class/showAll">Wszyscy Użytkownicy</a>
+  <ClassForm bind:ClassDTO onSubmit={async () => createClassAndRedirect()} />
+</div>

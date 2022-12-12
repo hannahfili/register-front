@@ -9,14 +9,15 @@ export class HttpMethodError extends Error {
 export function handleError(error, actionName) {
   let alert_message = "";
   if (error instanceof HttpMethodError) {
-    let displayErrors = "";
-    if (error.errorsList != null) {
-      for (let key in error.errorsList) {
-        displayErrors += error.errorsList[key];
-        displayErrors += " ";
-      }
-    }
-    alert_message = `Błąd HTTP przy wysyłaniu danych!\nWykonywana akcja: [${actionName}]\nInformacje o błędzie:\n${error.message}\n${displayErrors}`;
+    // console.log(error);
+    // let displayErrors = "";
+    // if (error.errorsList != null) {
+    //   for (let key in error.errorsList) {
+    //     displayErrors += error.errorsList[key];
+    //     displayErrors += " ";
+    //   }
+    // }
+    alert_message = `Błąd HTTP przy wysyłaniu danych!\nWykonywana akcja: [${actionName}]\nInformacje o błędzie:\n${error.message}`;
   } else if (error instanceof Error) {
     // alert_message = `Wystąpił inny błąd: ${error.message}\n${error.stack}\nWykonywana akcja: [${actionName}]`;
     alert_message = `Wystąpił inny błąd: ${error.message}\nWykonywana akcja: [${actionName}]`;

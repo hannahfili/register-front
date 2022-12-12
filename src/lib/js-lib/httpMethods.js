@@ -130,7 +130,17 @@ export async function genericPut(
 }
 
 async function handleNotOkResponse(response) {
+  console.log(response);
+  console.log(response.status);
   let json = await response.clone().json();
-  let message = `Kod błędu: ${json.status} | Szczegóły: ${json.data}`;
+  console.log(json);
+
+  let info = "";
+  if (json.name != "") info = "Nazwa już istnieje";
+  else {
+    info = json;
+  }
+
+  let message = `Kod błędu: ${response.status} | Szczegóły: ${info}`;
   throw new HttpMethodError(message);
 }
