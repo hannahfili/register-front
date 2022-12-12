@@ -20,7 +20,9 @@
   };
   let subjectId;
   let classesAssignedToTheSubject = [];
+  let classesAssignedToTheSubjectCopy = [];
   let classesNOTAssignedToTheSubject = [];
+  let classesNOTAssignedToTheSubjectCopy = [];
   let subject = {
     name: "",
     description: "",
@@ -43,15 +45,29 @@
     classesAssignedToTheSubject = await getClassesAssignedToThisSubject(
       subjectId
     );
-    classesNOTAssignedToTheSubject = await getClassesNOTAssignedToThisSubject(
-      subjectId
+    classesAssignedToTheSubjectCopy = structuredClone(
+      classesAssignedToTheSubject
     );
-    for (let schoolClass of classesAssignedToTheSubject) {
+    for (let schoolClass of classesAssignedToTheSubjectCopy) {
       schoolClass.name = showNameRelatedToCurrentYear(
         schoolClass.class_start,
         schoolClass.name
       );
     }
+    classesNOTAssignedToTheSubject = await getClassesNOTAssignedToThisSubject(
+      subjectId
+    );
+    classesNOTAssignedToTheSubjectCopy = structuredClone(
+      classesNOTAssignedToTheSubject
+    );
+    for (let schoolClass of classesNOTAssignedToTheSubjectCopy) {
+      schoolClass.name = showNameRelatedToCurrentYear(
+        schoolClass.class_start,
+        schoolClass.name
+      );
+    }
+
+    console.log(classesAssignedToTheSubject);
   });
   function addHandler(event) {}
 
@@ -103,7 +119,7 @@
   <div>
     Klasy przypisane do przedmiotu:
     <BaseList
-      collection={classesAssignedToTheSubject}
+      collection={classesAssignedToTheSubjectCopy}
       firstButtonName={"Przejdź do ocen"}
       firstButtonVisibility={true}
       secondButtonName={"Usuń klasę z realizacji przedmiotu"}
@@ -120,7 +136,7 @@
   <div>
     Klasy nieprzypisane do przedmiotu:
     <BaseList
-      collection={classesNOTAssignedToTheSubject}
+      collection={classesNOTAssignedToTheSubjectCopy}
       firstButtonName={"Przypisz klasę do przedmiotu"}
       firstButtonVisibility={true}
       secondButtonName={""}
