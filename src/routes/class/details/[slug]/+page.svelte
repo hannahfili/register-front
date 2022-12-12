@@ -9,6 +9,7 @@
     getClassById,
     showNameRelatedToCurrentYear,
     dischargeStudentFromClass,
+    getSubjectsAssignedToThisClass,
   } from "../../../../lib/stores/SchoolClass";
   import BaseList from "$lib/components/BaseList.svelte";
   let schoolClass = {
@@ -21,12 +22,17 @@
   let schoolClassNameForDisplay;
   let students;
   let studentsForDisplay = [];
+  let subjectsAssignedToThisClass;
 
   let headerDictionary = {
     "ID studenta": "id",
     Imię: "user.name",
     Nazwisko: "user.surname",
     Email: "user.email",
+  };
+  let subjectsHeaderDictionary = {
+    Nazwa: "name",
+    Opis: "description",
   };
 
   onMount(async () => {
@@ -37,6 +43,11 @@
       schoolClass.name
     );
     students = schoolClass.students;
+
+    subjectsAssignedToThisClass = await getSubjectsAssignedToThisClass(
+      schoolClassId
+    );
+    console.log(subjectsAssignedToThisClass);
     // for (let student of students) {
     //   let studentForDisplay = {
     //     id: student.id,
@@ -56,6 +67,11 @@
   function detailHandler(event) {
     // goto(`/class/details/${event.detail.row.id}`);
   }
+  function showSubjectMarksOfChosenSchoolClass(event) {
+    // let url = `/class/${schoolClassId}/subject/${event.detail.row.id}/show_marks`;
+    // window.open(url, "_blank").focus();
+    goto(`/class/${schoolClassId}/subject/${event.detail.row.id}/show_marks`);
+  }
 
   async function deleteHandler(event) {
     if (confirm("Czy na pewno chcesz usunąć wybranego ucznia z tej klasy?")) {
@@ -74,7 +90,7 @@
 </script>
 
 <div>
-  <a href="/class/showAll">Wszyscy Użytkownicy</a>
+  <a href="/class/showAll">Wszystkie klasy</a>
   <div>
     Klasa: {schoolClassNameForDisplay}
     <br />
@@ -99,5 +115,20 @@
     />
     <br />
     Przedmioty przypisane do klasy:
+    <br />
+    <BaseList
+      collection={subjectsAssignedToThisClass}
+      firstButtonName={"Oceny"}
+      firstButtonVisibility={true}
+      secondButtonName={""}
+      secondButtonVisibility={false}
+      headerDictionary={subjectsHeaderDictionary}
+      addNewVisibility={false}
+      addNewName={""}
+      on:listAdd={addHandler}
+      on:listDetail={showSubjectMarksOfChosenSchoolClass}
+      on:listDelete={deleteHandler}
+      on:listDeleteSelected={deleteSelectedHandler}
+    />
   </div>
 </div>

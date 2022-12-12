@@ -21,6 +21,7 @@
   };
   let notAssignedStudents;
   let schoolClassNameForDisplay;
+  let displayStudents = false;
 
   onMount(async () => {
     schoolClassId = data.id;
@@ -32,6 +33,9 @@
     );
     notAssignedStudents = await getNotAssignedStudents();
     notAssignedStudents = notAssignedStudents.data;
+    if (notAssignedStudents.length > 0) {
+      displayStudents = true;
+    }
     console.log(notAssignedStudents);
   });
   async function assignSelectedStudents(event) {
@@ -50,6 +54,9 @@
 
   function detailHandler(event) {}
   async function deleteHandler(event) {}
+  function returnToDetails() {
+    goto(`/class/details/${schoolClassId}`);
+  }
 
   let headerDictionary = {
     "ID studenta": "id",
@@ -60,6 +67,7 @@
 </script>
 
 <div>
+  <button on:click={() => returnToDetails()}>Powrót</button>
   <div>
     Klasa: {schoolClassNameForDisplay}
     <br />
@@ -68,19 +76,24 @@
     Data zakończenia: {schoolClass.class_end}
     <br />
   </div>
-  Możesz przypisać poniższych uczniów do tej klasy:
-  <AssignStudentsList
-    collection={notAssignedStudents}
-    firstButtonName={""}
-    firstButtonVisibility={false}
-    secondButtonName={""}
-    secondButtonVisibility={false}
-    {headerDictionary}
-    addNewVisibility={false}
-    addNewName={""}
-    on:listAdd={addHandler}
-    on:listDetail={detailHandler}
-    on:listDelete={deleteHandler}
-    on:listAssignSelected={assignSelectedStudents}
-  />
+  {#if displayStudents}
+    Możesz przypisać poniższych uczniów do tej klasy:
+    <AssignStudentsList
+      collection={notAssignedStudents}
+      firstButtonName={""}
+      firstButtonVisibility={false}
+      secondButtonName={""}
+      secondButtonVisibility={false}
+      {headerDictionary}
+      addNewVisibility={false}
+      addNewName={""}
+      on:listAdd={addHandler}
+      on:listDetail={detailHandler}
+      on:listDelete={deleteHandler}
+      on:listAssignSelected={assignSelectedStudents}
+    />
+  {:else}
+    NIE MOŻNA PRZYPISAĆ UCZNIÓW -> Wszyscy istniejący uczniowe są przypisani do
+    jakiejś klasy
+  {/if}
 </div>

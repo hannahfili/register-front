@@ -25,7 +25,9 @@
   }
 
   function detailHandler(event) {
-    goto(`/subject/details/${event.detail.row.id}`);
+    // goto(`/subject/details/${event.detail.row.id}`);
+    let url = `/subject/details/${event.detail.row.id}`;
+    window.open(url, "_blank").focus();
   }
 
   async function deleteHandler(event) {
