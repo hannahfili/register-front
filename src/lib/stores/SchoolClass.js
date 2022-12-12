@@ -87,22 +87,15 @@ export async function getClassById(id) {
   let json = await response.json();
   return json.data;
 }
-// export async function putBuildingAddress(
-//   id,
-//   buldingAddressDTO,
-//   optionalParameters = null
-// ) {
-//   let response;
-//   try {
-//     response = await genericPut(
-//       "/BuildingAddress",
-//       id,
-//       buldingAddressDTO,
-//       optionalParameters
-//     );
-//     return response;
-//   } catch (err) {
-//     handleError(err, "edycja Adresu Budynku");
-//     return err;
-//   }
-// }
+export async function getSubjectsAssignedToThisClass(classId) {
+  let route = `/display_subjects_assigned_to_class/${classId}`;
+  let response;
+  try {
+    response = await genericGetAll(route);
+  } catch (err) {
+    handleError(err, "pobieranie przedmiotów przypisanych do wybranej klasy");
+    return err;
+  }
+  let json = await response.json();
+  return json.data;
+}
