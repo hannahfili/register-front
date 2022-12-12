@@ -22,8 +22,11 @@
   }
 </script>
 
-<UserForm
-  updateMode={false}
-  bind:UserDto
-  onSubmit={async () => createUserAndRedirect()}
-/>
+<div>
+  <a href="/user/showAll">Wszyscy Użytkownicy</a>
+  <UserForm
+    updateMode={false}
+    bind:UserDto
+    onSubmit={async () => createUserAndRedirect()}
+  />
+</div>

@@ -21,7 +21,6 @@
   let schoolClassNameForDisplay;
   let students;
   let studentsForDisplay = [];
-  
 
   let headerDictionary = {
     "ID studenta": "id",
@@ -75,27 +74,30 @@
 </script>
 
 <div>
-  Klasa: {schoolClassNameForDisplay}
-  <br />
-  Data rozpoczęcia: {schoolClass.class_start}
-  <br />
-  Data zakończenia: {schoolClass.class_end}
-  <br />
-  Uczniowe:
-  <BaseList
-    collection={students}
-    firstButtonName={"Szczegóły"}
-    firstButtonVisibility={false}
-    secondButtonName={"Usuń z tej klasy"}
-    secondButtonVisibility={true}
-    {headerDictionary}
-    addNewVisibility={true}
-    addNewName={"Przypisz uczniów do klasy"}
-    on:listAdd={addHandler}
-    on:listDetail={detailHandler}
-    on:listDelete={deleteHandler}
-    on:listDeleteSelected={deleteSelectedHandler}
-  />
-  <br />
-  Przedmioty przypisane do klasy:
+  <a href="/class/showAll">Wszyscy Użytkownicy</a>
+  <div>
+    Klasa: {schoolClassNameForDisplay}
+    <br />
+    Data rozpoczęcia: {schoolClass.class_start}
+    <br />
+    Data zakończenia: {schoolClass.class_end}
+    <br />
+    Uczniowe:
+    <BaseList
+      collection={students}
+      firstButtonName={"Szczegóły"}
+      firstButtonVisibility={false}
+      secondButtonName={"Usuń z tej klasy"}
+      secondButtonVisibility={true}
+      {headerDictionary}
+      addNewVisibility={true}
+      addNewName={"Przypisz uczniów do klasy"}
+      on:listAdd={addHandler}
+      on:listDetail={detailHandler}
+      on:listDelete={deleteHandler}
+      on:listDeleteSelected={deleteSelectedHandler}
+    />
+    <br />
+    Przedmioty przypisane do klasy:
+  </div>
 </div>

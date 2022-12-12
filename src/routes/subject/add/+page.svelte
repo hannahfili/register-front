@@ -22,8 +22,8 @@
 
   async function createSubjectAndRedirect() {
     let createSubjectResponse = await createSubject(SubjectDTO);
-    console.log(createSubjectResponse);
     if (createSubjectResponse instanceof Error) {
+      console.log(createSubjectResponse);
       return;
     }
     alert("Pomyślnie dodano przedmiot");
@@ -40,11 +40,13 @@
   }
 </script>
 
-<!-- <div>hello</div> -->
-<SubjectForm
-  updateMode={false}
-  {teachers}
-  bind:teacherId
-  bind:SubjectDTO
-  onSubmit={async () => createSubjectAndRedirect()}
-/>
+<div>
+  <a href="/subject/showAll">Wszystkie przedmioty</a>
+  <SubjectForm
+    updateMode={false}
+    {teachers}
+    bind:teacherId
+    bind:SubjectDTO
+    onSubmit={async () => createSubjectAndRedirect()}
+  />
+</div>

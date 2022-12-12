@@ -9,13 +9,9 @@
   };
   export let teacherId;
   export let teachers = [];
-  function redirect() {
-    goto(`/subject/showAll`);
-  }
 </script>
 
 <div>
-  <button on:click={() => redirect()}>Powrót do wszystkich przedmiotów</button>
   {#if teachers.length > 0}
     <form on:submit|preventDefault={async () => await onSubmit()}>
       <div>
