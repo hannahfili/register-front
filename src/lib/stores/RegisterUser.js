@@ -7,16 +7,26 @@ import {
 } from "$lib/js-lib/httpMethods.js";
 import { handleError } from "../js-lib/errors";
 
-let UserDto = {
-  id: 0,
-  name: "",
-  surname: "",
-  email: "",
-  password: "",
-  isAdmin: false,
-  isStudent: false,
-  isTeacher: false,
-};
+// let UserDto = {
+//   id: 0,
+//   name: "",
+//   surname: "",
+//   email: "",
+//   password: "",
+//   isAdmin: false,
+//   isStudent: false,
+//   isTeacher: false,
+// };
+export async function logIn(userDto) {
+  let response;
+  try {
+    response = await genericPost("/login", userDto);
+    return await response.json();
+  } catch (err) {
+    handleError(err, "logowanie użytkownika");
+    return err;
+  }
+}
 export function usersAreEqual(user1, user2) {
   if (
     user1.id == user2.id &&

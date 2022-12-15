@@ -1,7 +1,30 @@
 <script>
-  import Counter from "./Counter.svelte";
+  // import Counter from "./Counter.svelte";
+  import Header from "./Header.svelte";
   import welcome from "$lib/images/svelte-welcome.webp";
   import welcome_fallback from "$lib/images/svelte-welcome.png";
+  import LoginForm from "../lib/components/LoginForm.svelte";
+  import { logIn } from "../lib/stores/RegisterUser.js";
+  import { onMount } from "svelte";
+  import { user } from "../stores";
+
+  // onMount(()=>{
+  //   if($user){
+
+  //   }
+  // });
+
+  let UserDto = {
+    email: "",
+    password: "",
+  };
+
+  async function tryToLogIn(userDTO) {
+    let loginRes = await logIn(userDTO);
+    if(loginRes instanceof Error) return;
+    setGlobalVars(loginRes.data);
+  }
+  
 </script>
 
 <svelte:head>
@@ -10,11 +33,15 @@
 </svelte:head>
 
 <section>
-  <a href="/user/showAll">Użytkownicy</a>
-  <a href="/class/showAll">Klasy</a>
-  <a href="/subject/showAll">Przedmioty</a>
-  <a href="/marks">Oceny</a>
-  <a href="/activity/showAll">Aktywności</a>
+  {#if $user}
+    <a href="/user/showAll">Użytkownicy</a>
+    <a href="/class/showAll">Klasy</a>
+    <a href="/subject/showAll">Przedmioty</a>
+    <a href="/marks">Oceny</a>
+    <a href="/activity/showAll">Aktywności</a>
+  {:else}
+    <LoginForm bind:UserDto onSubmit={async () => await tryToLogIn(UserDto)} />
+  {/if}
 </section>
 
 <style>
