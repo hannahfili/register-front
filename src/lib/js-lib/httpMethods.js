@@ -136,9 +136,10 @@ async function handleNotOkResponse(response) {
   console.log(json);
 
   let info = "";
-  if (json.name != "") info = "Nazwa już istnieje";
-  else {
-    info = json;
+  if (json.name) {
+    info = "Nazwa już istnieje";
+  } else if (json.status) {
+    info = json.status + " " + json.data;
   }
 
   let message = `Kod błędu: ${response.status} | Szczegóły: ${info}`;

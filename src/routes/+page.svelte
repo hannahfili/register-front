@@ -14,6 +14,7 @@
   <a href="/class/showAll">Klasy</a>
   <a href="/subject/showAll">Przedmioty</a>
   <a href="/marks">Oceny</a>
+  <a href="/activity/showAll">Aktywności</a>
 </section>
 
 <style>
