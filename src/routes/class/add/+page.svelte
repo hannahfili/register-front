@@ -13,6 +13,6 @@
 </script>
 
 <div>
-  <a href="/class/showAll">Wszyscy Użytkownicy</a>
+  <a href="/class/showAll">Wszyscy klasy</a>
   <ClassForm bind:ClassDTO onSubmit={async () => createClassAndRedirect()} />
 </div>
