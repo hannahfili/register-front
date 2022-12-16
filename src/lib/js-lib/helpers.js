@@ -1,10 +1,7 @@
-import {
-  user_token,
-  user_role,
-  subject_id,
-  school_class_id,
-  user_id,
-} from "../stores";
+// import { getSubjectAssignedToThisTeacher } from "../stores/Teacher";
+// import { getClassAssignedToThisStudent } from "../stores/Student";
+import { handleError } from "../js-lib/errors";
+import { genericPost } from "./httpMethods.js";
 
 function isEmpty(obj) {
   return Object.keys(obj).length === 0;
@@ -42,18 +39,8 @@ export function extractToken(token) {
   let pipeIndex = token.indexOf("|");
   return token.substring(pipeIndex + 1, token.length);
 }
-async function setGlobalVars(userToken) {
-  let user = await getUserAssignedToToken(userToken);
-  $user_token = userToken;
-  $user_id = user.id;
-  $user_isAdmin = user.isAdmin;
-  $user_isTeacher = user.isTeacher;
-  $user_isStudent = user.isStudent;
-  if (user.isAdmin) {
-    $subject_id = await getSubjectAssid;
-  }
-}
-async function getUserAssignedToToken(tokenValue) {
+
+export async function getUserAssignedToToken(tokenValue) {
   let response;
   let tokenDTO = {
     token: tokenValue,

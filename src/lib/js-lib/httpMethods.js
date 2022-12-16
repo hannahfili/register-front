@@ -4,11 +4,21 @@ import { json } from "@sveltejs/kit";
 
 const apiAddress = "http://localhost:8000/api";
 
+function getUserToken() {
+  let userReceived = localStorage.getItem("user");
+  let user = null;
+  if (userReceived) {
+    user = JSON.parse(userReceived);
+  }
+  return user.token;
+}
+
 export async function genericPost(
   route,
   bodyToJsonize,
   optionalParameters = null
 ) {
+  let token = getUserToken();
   let response;
   let url = apiAddress.concat(route);
   url = addOptionalParameters(url, optionalParameters);
@@ -18,6 +28,7 @@ export async function genericPost(
     body: JSON.stringify(bodyToJsonize),
     headers: new Headers({
       "content-type": "application/json",
+      authorization: `Bearer ${token}`,
     }),
   };
 
@@ -29,6 +40,7 @@ export async function genericPost(
   return response;
 }
 export async function genericPostWithoutBody(route) {
+  let token = getUserToken();
   let response;
   let url = apiAddress.concat(route);
   // url = addOptionalParameters(url, optionalParameters);
@@ -38,6 +50,7 @@ export async function genericPostWithoutBody(route) {
     // body: JSON.stringify(bodyToJsonize),
     headers: new Headers({
       "content-type": "application/json",
+      authorization: `Bearer ${token}`,
     }),
   };
 
@@ -50,13 +63,15 @@ export async function genericPostWithoutBody(route) {
 }
 
 export async function genericGetAll(route) {
+  let token = getUserToken();
   let url = apiAddress.concat(route);
   let response;
 
   let fetchData = {
     method: "GET",
     headers: new Headers({
-      "content-type": "application/json",
+      // "content-type": "application/json",
+      authorization: `Bearer ${token}`,
     }),
   };
 
@@ -67,13 +82,15 @@ export async function genericGetAll(route) {
   return response;
 }
 export async function genericGetById(route, id) {
+  let token = getUserToken();
   let halfUrl = route + "/" + id;
   let url = apiAddress.concat(halfUrl);
   let response;
   let fetchData = {
     method: "GET",
     headers: new Headers({
-      // "content-type": "application/json",
+      "content-type": "application/json",
+      authorization: `Bearer ${token}`,
     }),
   };
 
@@ -85,6 +102,7 @@ export async function genericGetById(route, id) {
   return response;
 }
 export async function genericDelete(route, id) {
+  let token = getUserToken();
   let halfUrl = route + "/" + id;
   let url = apiAddress.concat(halfUrl);
   let response;
@@ -92,6 +110,7 @@ export async function genericDelete(route, id) {
     method: "DELETE",
     headers: new Headers({
       "content-type": "application/json",
+      authorization: `Bearer ${token}`,
     }),
   };
 
@@ -108,6 +127,7 @@ export async function genericPut(
   bodyToJsonize,
   optionalParameters = null
 ) {
+  let token = getUserToken();
   let response;
   let halfUrl = route + "/" + id;
   let url = apiAddress.concat(halfUrl);
@@ -118,6 +138,7 @@ export async function genericPut(
     body: JSON.stringify(bodyToJsonize),
     headers: new Headers({
       "content-type": "application/json",
+      authorization: `Bearer ${token}`,
     }),
   };
 

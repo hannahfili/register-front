@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import logo from "$lib/images/svelte-logo.svg";
   import github from "$lib/images/github.svg";
-  import { user } from "../stores";
+  import { user } from "../lib/js-lib/user_info";
 </script>
 
 <header>
@@ -20,7 +20,7 @@
       <li aria-current={$page.url.pathname === "/" ? "page" : undefined}>
         <a href="/">Strona główna</a>
       </li>
-      {#if $user}
+      {#if $user.id}
         <li aria-current={$page.url.pathname === "/" ? "page" : undefined}>
           <a href="/logout">Wyloguj</a>
         </li>

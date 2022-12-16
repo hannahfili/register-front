@@ -28,19 +28,16 @@ export async function getTeachersNotAssignedToAnySubject() {
   }
   return await response.json();
 }
-export async function getSubjectAssignedToThisTeacher(teacherId) {
+export async function getSubjectIdAssignedToThisTeacher(teacherUserId) {
   let response;
-  let route = `/teacher/${teacherId}/get_subject_assigned`;
+  let route = `/teacher/${teacherUserId}/get_subject_assigned`;
   try {
     response = await genericGetAll(route);
+    let json = await response.json();
+    return json.data.id;
   } catch (err) {
     handleError(err, "pobieranie przedmiotu przypisanego do nauczyciela");
-  }
-  if (response instanceof Error) {
     return null;
-  } else {
-    let json = await response.json();
-    return json.data.sclasses;
   }
 }
 export async function getTeacherClasses(teacherId) {

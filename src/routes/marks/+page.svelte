@@ -13,13 +13,6 @@
     showNameRelatedToCurrentYear,
     getSubjectsAssignedToThisClass,
   } from "../../lib/stores/SchoolClass";
-  import {
-    user_token,
-    user_role,
-    subject_id,
-    school_class_id,
-    user_id,
-  } from "../stores";
 
   let roleMode = {
     teacherMode: false,
@@ -43,7 +36,9 @@
         chosenSchoolClassId
       );
     } else if (roleModeType.studentMode) {
-      let studentId = await getStudentId($user_id);
+      // TODO DO ZMIANY
+      let userID = 1;
+      let studentId = await getStudentId(userID);
       selectSubjects = await getSubjectsAssignedToThisStudent(studentId);
     }
   }
