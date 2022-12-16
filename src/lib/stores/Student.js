@@ -53,7 +53,18 @@ export async function assignOneStudentToClass(studentId, classId) {
   }
   return await response.json();
 }
-export async function getSubjectsAssignedToThisStudent(studentId) {}
+export async function getSubjectsAssignedToThisStudent(studentId) {
+  let response;
+  let route = `/student/${studentId}/assigned_subjects`;
+  try {
+    response = await genericGetAll(route);
+    let json = await response.json();
+    return json.data;
+  } catch (err) {
+    handleError(err, "pobieranie przedmiotów, które realizuje uczeń");
+    return null;
+  }
+}
 
 export async function getClassAssignedToThisStudent(studentUserId) {
   let response;

@@ -9,6 +9,7 @@
   import { getAllClasses } from "../../lib/stores/SchoolClass";
   import { getTeacherClasses } from "../../lib/stores/Teacher";
   import { getSubjectsAssignedToThisStudent } from "../../lib/stores/Student";
+  import { user } from "../../lib/js-lib/user_info.js";
   import {
     showNameRelatedToCurrentYear,
     getSubjectsAssignedToThisClass,
@@ -25,10 +26,19 @@
   let chosenSubjectId;
   let selectSubjects = [];
   onMount(async () => {
-    token = "123"; //TODO == POBIERZ TOKEN Z LOCALSTORAGE
-    roleMode = setRoleMode(token);
+    let userReceived = localStorage.getItem("user");
+    if (userReceived) {
+      $user = JSON.parse(userReceived);
+    } else {
+      goto(`/`);
+      return;
+    }
+    roleMode = setRoleMode($user);
     selectSchoolClasses = await getSchoolClassesForSelect(roleMode);
     selectSchoolClasses = prepareSchoolClassesNames(selectSchoolClasses);
+    if (roleMode.studentMode) {
+      await getSubjectsForSelect(roleMode);
+    }
   });
   async function getSubjectsForSelect(roleModeType) {
     if (roleModeType.adminMode) {
@@ -37,8 +47,9 @@
       );
     } else if (roleModeType.studentMode) {
       // TODO DO ZMIANY
-      let userID = 1;
-      let studentId = await getStudentId(userID);
+      // let userID = 1;
+      let studentId = await getStudentId($user.id);
+      console.log(studentId);
       selectSubjects = await getSubjectsAssignedToThisStudent(studentId);
     }
   }
