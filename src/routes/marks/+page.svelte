@@ -8,6 +8,7 @@
   } from "../../lib/js-lib/helpers";
   import { getAllClasses } from "../../lib/stores/SchoolClass";
   import { getTeacherClasses } from "../../lib/stores/Teacher";
+  import { getSubjectsAssignedToThisStudent } from "../../lib/stores/Student";
   import {
     showNameRelatedToCurrentYear,
     getSubjectsAssignedToThisClass,
@@ -35,7 +36,9 @@
         chosenSchoolClassId
       );
     } else if (roleModeType.studentMode) {
-      let studentId = await getStudentId(token);
+      // TODO DO ZMIANY
+      let userID = 1;
+      let studentId = await getStudentId(userID);
       selectSubjects = await getSubjectsAssignedToThisStudent(studentId);
     }
   }

@@ -1,7 +1,61 @@
 <script>
-  import Counter from "./Counter.svelte";
+  // import Counter from "./Counter.svelte";
+  import Header from "./Header.svelte";
   import welcome from "$lib/images/svelte-welcome.webp";
   import welcome_fallback from "$lib/images/svelte-welcome.png";
+  import LoginForm from "../lib/components/LoginForm.svelte";
+  import { logIn } from "../lib/stores/RegisterUser.js";
+  import { onMount } from "svelte";
+  import { getSubjectIdAssignedToThisTeacher } from "../lib/stores/Teacher";
+  import { getClassAssignedToThisStudent } from "../lib/stores/Student";
+  import { user } from "../lib/js-lib/user_info";
+  import { extractToken, getUserAssignedToToken } from "../lib/js-lib/helpers";
+
+  let UserDto = {
+    email: "",
+    password: "",
+  };
+  onMount(async () => {
+    let userReceived = localStorage.getItem("user");
+    if (userReceived) {
+      $user = JSON.parse(userReceived);
+    }
+  });
+
+  async function tryToLogIn(userDTO) {
+    let loginRes = await logIn(userDTO);
+    if (loginRes instanceof Error) return;
+    let token = extractToken(loginRes.data);
+    await setGlobalVars(token);
+    // console.log($user_token);
+    // console.log($user_isAdmin);
+    // console.log($user_isStudent);
+    // console.log($user_isTeacher);
+    // console.log($subject_id);
+    // console.log($school_class_id);
+    // console.log($user_id);
+  }
+  async function setGlobalVars(userToken) {
+    let userDTO = await getUserAssignedToToken(userToken);
+    userDTO = userDTO.data;
+    $user.id = userDTO.id;
+    $user.token = userToken;
+    $user.isAdmin = userDTO.isAdmin;
+    $user.isTeacher = userDTO.isTeacher;
+    $user.isStudent = userDTO.isStudent;
+    console.log($user.token);
+    if ($user.isTeacher) {
+      let subject = await getSubjectIdAssignedToThisTeacher($user.id);
+      // $subject_id = subject;
+      $user.subjectId = subject;
+    }
+    if ($user.isStudent) {
+      let schoolClass = await getClassAssignedToThisStudent($user.id);
+      // $school_class_id = schoolClass;
+      $user.schoolClassId = schoolClass;
+    }
+    localStorage.setItem("user", JSON.stringify($user));
+  }
 </script>
 
 <svelte:head>
@@ -10,11 +64,20 @@
 </svelte:head>
 
 <section>
-  <a href="/user/showAll">Użytkownicy</a>
-  <a href="/class/showAll">Klasy</a>
-  <a href="/subject/showAll">Przedmioty</a>
-  <a href="/marks">Oceny</a>
-  <a href="/activity/showAll">Aktywności</a>
+  {#if $user && $user.isAdmin}
+    <a href="/user/showAll">Użytkownicy</a>
+    <a href="/class/showAll">Klasy</a>
+    <a href="/subject/showAll">Przedmioty</a>
+    <a href="/marks">Oceny</a>
+    <a href="/marks_modifications">Modyfikacje ocen</a>
+    <a href="/activity/showAll">Aktywności</a>
+  {:else if $user && $user.isTeacher}
+    <div>hi</div>
+  {:else if $user && $user.isStudent}
+    <div>hello</div>
+  {:else}
+    <LoginForm bind:UserDto onSubmit={async () => await tryToLogIn(UserDto)} />
+  {/if}
 </section>
 
 <style>
