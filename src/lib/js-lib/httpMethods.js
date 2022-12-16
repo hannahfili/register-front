@@ -12,7 +12,30 @@ function getUserToken() {
   }
   return user.token;
 }
+export async function genericLogIn(
+  route,
+  bodyToJsonize,
+  optionalParameters = null
+) {
+  let response;
+  let url = apiAddress.concat(route);
+  url = addOptionalParameters(url, optionalParameters);
 
+  let fetchData = {
+    method: "POST",
+    body: JSON.stringify(bodyToJsonize),
+    headers: new Headers({
+      "content-type": "application/json",
+    }),
+  };
+
+  response = await fetch(url, fetchData);
+  if (!response.ok) {
+    await handleNotOkResponse(response);
+  }
+
+  return response;
+}
 export async function genericPost(
   route,
   bodyToJsonize,
@@ -29,6 +52,30 @@ export async function genericPost(
     headers: new Headers({
       "content-type": "application/json",
       authorization: `Bearer ${token}`,
+    }),
+  };
+
+  response = await fetch(url, fetchData);
+  if (!response.ok) {
+    await handleNotOkResponse(response);
+  }
+
+  return response;
+}
+export async function genericGetUserByToken(
+  route,
+  bodyToJsonize,
+  optionalParameters = null
+) {
+  let response;
+  let url = apiAddress.concat(route);
+  url = addOptionalParameters(url, optionalParameters);
+
+  let fetchData = {
+    method: "POST",
+    body: JSON.stringify(bodyToJsonize),
+    headers: new Headers({
+      "content-type": "application/json",
     }),
   };
 

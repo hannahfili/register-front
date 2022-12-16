@@ -24,8 +24,10 @@
 
   async function tryToLogIn(userDTO) {
     let loginRes = await logIn(userDTO);
+    console.log(loginRes);
     if (loginRes instanceof Error) return;
     let token = extractToken(loginRes.data);
+    console.log(token);
     await setGlobalVars(token);
     // console.log($user_token);
     // console.log($user_isAdmin);
@@ -37,6 +39,7 @@
   }
   async function setGlobalVars(userToken) {
     let userDTO = await getUserAssignedToToken(userToken);
+    console.log(userDTO);
     userDTO = userDTO.data;
     $user.id = userDTO.id;
     $user.token = userToken;
@@ -72,9 +75,9 @@
     <a href="/marks_modifications">Modyfikacje ocen</a>
     <a href="/activity/showAll">Aktywności</a>
   {:else if $user && $user.isTeacher}
-    <div>hi</div>
+    <a href="/marks">Oceny moich klas</a>
   {:else if $user && $user.isStudent}
-    <div>hello</div>
+    <a href="/marks">Moje oceny</a>
   {:else}
     <LoginForm bind:UserDto onSubmit={async () => await tryToLogIn(UserDto)} />
   {/if}

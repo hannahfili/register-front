@@ -1,7 +1,7 @@
 // import { getSubjectAssignedToThisTeacher } from "../stores/Teacher";
 // import { getClassAssignedToThisStudent } from "../stores/Student";
 import { handleError } from "../js-lib/errors";
-import { genericPost } from "./httpMethods.js";
+import { genericPost, genericGetUserByToken } from "./httpMethods.js";
 
 function isEmpty(obj) {
   return Object.keys(obj).length === 0;
@@ -46,7 +46,7 @@ export async function getUserAssignedToToken(tokenValue) {
     token: tokenValue,
   };
   try {
-    response = await genericPost("/user_assigned_to_token", tokenDTO);
+    response = await genericGetUserByToken("/user_assigned_to_token", tokenDTO);
     return await response.json();
   } catch (err) {
     handleError(err, "pobieranie danych użytkownika na podstawie tokenu");

@@ -6,6 +6,7 @@ import {
   genericGetById,
 } from "$lib/js-lib/httpMethods.js";
 import { handleError } from "../js-lib/errors";
+import { genericLogIn } from "../js-lib/httpMethods";
 
 // let UserDto = {
 //   id: 0,
@@ -20,7 +21,7 @@ import { handleError } from "../js-lib/errors";
 export async function logIn(userDto) {
   let response;
   try {
-    response = await genericPost("/login", userDto);
+    response = await genericLogIn("/login", userDto);
     return await response.json();
   } catch (err) {
     handleError(err, "logowanie użytkownika");
