@@ -1,3 +1,8 @@
+// import { getSubjectAssignedToThisTeacher } from "../stores/Teacher";
+// import { getClassAssignedToThisStudent } from "../stores/Student";
+import { handleError } from "../js-lib/errors";
+import { genericPost } from "./httpMethods.js";
+
 function isEmpty(obj) {
   return Object.keys(obj).length === 0;
 }
@@ -13,30 +18,38 @@ export function addOptionalParameters(url, parametersDictionary) {
   );
   return urlWithParameters;
 }
-export const AddUpdateBuildingAddressRequestResult = {
-  success: "success",
-  error: "error",
-  overQueryLimit: "overQueryLimit",
-};
-// export const PropertyManagerUpdatePartialResponse={
-//   buildingAddress_updated:"buildingAddress_updated",
-
-// }
-export function prepareCoordinatesNotFoundMessage(
-  addedBuildingAddress,
-  buildingAddressJSON
-) {
-  let cityName = addedBuildingAddress.cityName;
-  let streetName = addedBuildingAddress.streetName;
-  let buildingNumber = addedBuildingAddress.buildingNumber;
-
-  return `Nie znaleziono dokładnych współrzędnych dla adresu ${streetName} ${buildingNumber}, ${cityName}
-  \nOdnaleziono współrzędne dla adresu: ${buildingAddressJSON.googleAPIFormattedAddress}.
-  \nCzy chce je zachować?`;
+export function setRoleMode(userToken) {
+  // TODO PRZY LOGOWANIU
+  let roleMode = {
+    teacherMode: false,
+    studentMode: false,
+    adminMode: true,
+  };
+  return roleMode;
 }
-export function chooseNewStringIfNewDiffersFromOld(oldStr, newStr) {
-  if (oldStr != newStr) {
-    return newStr;
+export async function getTeacherId(userId) {
+  //TODO PRZY LOGOWANIU
+  return 1;
+}
+export async function getStudentId(userId) {
+  //TODO przy logowaniu
+  return 1;
+}
+export function extractToken(token) {
+  let pipeIndex = token.indexOf("|");
+  return token.substring(pipeIndex + 1, token.length);
+}
+
+export async function getUserAssignedToToken(tokenValue) {
+  let response;
+  let tokenDTO = {
+    token: tokenValue,
+  };
+  try {
+    response = await genericPost("/user_assigned_to_token", tokenDTO);
+    return await response.json();
+  } catch (err) {
+    handleError(err, "pobieranie danych użytkownika na podstawie tokenu");
+    return err;
   }
-  return oldStr;
 }

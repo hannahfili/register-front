@@ -1,38 +1,32 @@
 <script>
-  export let onSubmit = () => {};
+  import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
+  import UserForm from "../../../lib/components/UserForm.svelte";
+  import { createUser } from "../../../lib/stores/RegisterUser.js";
+  let UserDto = {
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+    isAdmin: false,
+    isStudent: false,
+    isTeacher: false,
+  };
+  async function createUserAndRedirect() {
+    let createUserResponse = await createUser(UserDto);
+    if (createUserResponse instanceof Error) {
+      return;
+    }
+    alert("Pomyślnie dodano użytkownika");
+    goto(`/user/showAll`);
+  }
 </script>
 
-<form on:submit|preventDefault={onSubmit}>
-  <div>
-    <label for="building-address-city-name">Miejscowość</label>
-    <select bind:value={buildingAddressDTO.cityName}>
-      {#each cities as city}
-        <option value={city.id}>{city.name}</option>
-      {/each}
-    </select>
-  </div>
-  <div>
-    <label for="property-manager-name">Nazwa Zarządcy Nieruchomości</label>
-    <input type="text" bind:value={propertyManagerDTO.name} />
-    <label for="property-manager-phone-number">Numer telefonu</label>
-    <input type="text" bind:value={propertyManagerDTO.phoneNumber} />
-    <label for="property-manager-name">Nazwa ulicy</label>
-    <input type="text" bind:value={buildingAddressDTO.streetName} />
-    <label for="building-address-building-number">Numer budynku</label>
-    <input type="text" bind:value={buildingAddressDTO.buildingNumber} />
-    <label for="property-manager-local-number">Numer lokalu (opcjonalnie)</label
-    >
-    <input
-      type="text"
-      bind:value={propertyManagerDTO.fullAddress.localNumber}
-    />
-    <label for="property-manager-staircase-number"
-      >Numer klatki schodowej (opcjonalnie)</label
-    >
-    <input
-      type="text"
-      bind:value={propertyManagerDTO.fullAddress.staircaseNumber}
-    />
-  </div>
-  <button type="submit">Submit</button>
-</form>
+<div>
+  <a href="/user/showAll">Wszyscy Użytkownicy</a>
+  <UserForm
+    updateMode={false}
+    bind:UserDto
+    onSubmit={async () => createUserAndRedirect()}
+  />
+</div>

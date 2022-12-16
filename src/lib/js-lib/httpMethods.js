@@ -2,17 +2,23 @@ import { addOptionalParameters } from "./helpers";
 import { HttpMethodError } from "./errors";
 import { json } from "@sveltejs/kit";
 
-const apiAddress = "https://localhost:7186";
+const apiAddress = "http://localhost:8000/api";
 
-/**
- * @param {string} route
- * @param {any} bodyToJsonize
- */
+function getUserToken() {
+  let userReceived = localStorage.getItem("user");
+  let user = null;
+  if (userReceived) {
+    user = JSON.parse(userReceived);
+  }
+  return user.token;
+}
+
 export async function genericPost(
   route,
   bodyToJsonize,
   optionalParameters = null
 ) {
+  let token = getUserToken();
   let response;
   let url = apiAddress.concat(route);
   url = addOptionalParameters(url, optionalParameters);
@@ -22,52 +28,61 @@ export async function genericPost(
     body: JSON.stringify(bodyToJsonize),
     headers: new Headers({
       "content-type": "application/json",
+      authorization: `Bearer ${token}`,
     }),
   };
 
   response = await fetch(url, fetchData);
   if (!response.ok) {
-    let json = await response.clone().json();
-    let message = `Kod błędu: ${json.status} | Szczegóły: ${json.title}`;
-    if (json.title == "One or more validation errors occurred.") {
-      throw new HttpMethodError(message, json.errors);
-    }
-    throw new HttpMethodError(message);
+    await handleNotOkResponse(response);
+  }
+
+  return response;
+}
+export async function genericPostWithoutBody(route) {
+  let token = getUserToken();
+  let response;
+  let url = apiAddress.concat(route);
+  // url = addOptionalParameters(url, optionalParameters);
+
+  let fetchData = {
+    method: "POST",
+    // body: JSON.stringify(bodyToJsonize),
+    headers: new Headers({
+      "content-type": "application/json",
+      authorization: `Bearer ${token}`,
+    }),
+  };
+
+  response = await fetch(url, fetchData);
+  if (!response.ok) {
+    await handleNotOkResponse(response);
   }
 
   return response;
 }
 
-/**
- * @param {string} route
- */
 export async function genericGetAll(route) {
+  let token = getUserToken();
   let url = apiAddress.concat(route);
   let response;
 
   let fetchData = {
     method: "GET",
     headers: new Headers({
-      "content-type": "application/json",
+      // "content-type": "application/json",
+      authorization: `Bearer ${token}`,
     }),
   };
 
   response = await fetch(url, fetchData);
   if (!response.ok) {
-    let json = await response.clone().json();
-    let message = `Kod błędu: ${json.status} | Szczegóły: ${json.title}`;
-    if (json.title == "One or more validation errors occurred.") {
-      throw new HttpMethodError(message, json.errors);
-    }
-    throw new HttpMethodError(message);
+    await handleNotOkResponse(response);
   }
   return response;
 }
-/**
- * @param {string} route
- * @param {string} id
- */
 export async function genericGetById(route, id) {
+  let token = getUserToken();
   let halfUrl = route + "/" + id;
   let url = apiAddress.concat(halfUrl);
   let response;
@@ -75,26 +90,19 @@ export async function genericGetById(route, id) {
     method: "GET",
     headers: new Headers({
       "content-type": "application/json",
+      authorization: `Bearer ${token}`,
     }),
   };
 
   response = await fetch(url, fetchData);
 
   if (!response.ok) {
-    let json = await response.clone().json();
-    let message = `Kod błędu: ${json.status} | Szczegóły: ${json.title}`;
-    if (json.title == "One or more validation errors occurred.") {
-      throw new HttpMethodError(message, json.errors);
-    }
-    throw new HttpMethodError(message);
+    await handleNotOkResponse(response);
   }
   return response;
 }
-/**
- * @param {string} route
- * @param {string} id
- */
 export async function genericDelete(route, id) {
+  let token = getUserToken();
   let halfUrl = route + "/" + id;
   let url = apiAddress.concat(halfUrl);
   let response;
@@ -102,32 +110,24 @@ export async function genericDelete(route, id) {
     method: "DELETE",
     headers: new Headers({
       "content-type": "application/json",
+      authorization: `Bearer ${token}`,
     }),
   };
 
   response = await fetch(url, fetchData);
 
   if (!response.ok) {
-    let json = await response.clone().json();
-    let message = `Kod błędu: ${json.status} | Szczegóły: ${json.title}`;
-    if (json.title == "One or more validation errors occurred.") {
-      throw new HttpMethodError(message, json.errors);
-    }
-    throw new HttpMethodError(message);
+    await handleNotOkResponse(response);
   }
   return response;
 }
-/**
- * @param {string} route
- * @param {string} id
- * @param {any} bodyToJsonize
- */
 export async function genericPut(
   route,
   id,
   bodyToJsonize,
   optionalParameters = null
 ) {
+  let token = getUserToken();
   let response;
   let halfUrl = route + "/" + id;
   let url = apiAddress.concat(halfUrl);
@@ -138,19 +138,31 @@ export async function genericPut(
     body: JSON.stringify(bodyToJsonize),
     headers: new Headers({
       "content-type": "application/json",
+      authorization: `Bearer ${token}`,
     }),
   };
 
   response = await fetch(url, fetchData);
-
   if (!response.ok) {
-    let json = await response.clone().json();
-    let message = `Kod błędu: ${json.status} | Szczegóły: ${json.title}`;
-    if (json.title == "One or more validation errors occurred.") {
-      throw new HttpMethodError(message, json.errors);
-    }
-    throw new HttpMethodError(message);
+    await handleNotOkResponse(response);
   }
 
   return response;
+}
+
+async function handleNotOkResponse(response) {
+  console.log(response);
+  console.log(response.status);
+  let json = await response.clone().json();
+  console.log(json);
+
+  let info = "";
+  if (json.name) {
+    info = "Nazwa już istnieje";
+  } else if (json.status) {
+    info = json.status + " " + json.data;
+  }
+
+  let message = `Kod błędu: ${response.status} | Szczegóły: ${info}`;
+  throw new HttpMethodError(message);
 }
