@@ -148,6 +148,25 @@ export async function genericGetById(route, id) {
   }
   return response;
 }
+export async function genericDeleteWithAdditionalParam(route) {
+  let token = getUserToken();
+  let url = apiAddress.concat(route);
+  let response;
+  let fetchData = {
+    method: "DELETE",
+    headers: new Headers({
+      "content-type": "application/json",
+      // authorization: `Bearer ${token}`,
+    }),
+  };
+
+  response = await fetch(url, fetchData);
+
+  if (!response.ok) {
+    await handleNotOkResponse(response);
+  }
+  return response;
+}
 export async function genericDelete(route, id) {
   let token = getUserToken();
   let halfUrl = route + "/" + id;
