@@ -46,15 +46,15 @@
     $user.isAdmin = userDTO.isAdmin;
     $user.isTeacher = userDTO.isTeacher;
     $user.isStudent = userDTO.isStudent;
+    $user.email = userDTO.email;
     console.log($user.token);
+    localStorage.setItem("user", JSON.stringify($user));
     if ($user.isTeacher) {
       let subject = await getSubjectIdAssignedToThisTeacher($user.id);
-      // $subject_id = subject;
       $user.subjectId = subject;
     }
     if ($user.isStudent) {
       let schoolClass = await getClassAssignedToThisStudent($user.id);
-      // $school_class_id = schoolClass;
       $user.schoolClassId = schoolClass;
     }
     localStorage.setItem("user", JSON.stringify($user));

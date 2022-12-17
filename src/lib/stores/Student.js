@@ -81,3 +81,18 @@ export async function getClassAssignedToThisStudent(studentUserId) {
     return null;
   }
 }
+export async function getStudentMarksOfParticularSubject(
+  userStudentId,
+  subjectId
+) {
+  let response;
+  let route = `/marks/student/${userStudentId}/subject/${subjectId}`;
+  try {
+    response = await genericGetAll(route);
+    let json = await response.json();
+    return json.data;
+  } catch (err) {
+    handleError(err, "pobieranie ocen wybranego ucznia z wybranego przedmiotu");
+    return null;
+  }
+}

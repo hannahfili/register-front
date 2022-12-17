@@ -7,9 +7,9 @@
 
 <header>
   <div class="corner">
-    <a href="https://kit.svelte.dev">
+    <!-- <a href="https://kit.svelte.dev">
       <img src={logo} alt="SvelteKit" />
-    </a>
+    </a> -->
   </div>
 
   <nav>
@@ -24,6 +24,9 @@
         <li aria-current={$page.url.pathname === "/" ? "page" : undefined}>
           <a href="/logout">Wyloguj</a>
         </li>
+        <li aria-current={$page.url.pathname === "/" ? "page" : undefined}>
+          <a>Witaj {$user.email}</a>
+        </li>
       {/if}
     </ul>
     <svg viewBox="0 0 2 3" aria-hidden="true">
@@ -32,9 +35,9 @@
   </nav>
 
   <div class="corner">
-    <a href="https://github.com/sveltejs/kit">
+    <!-- <a href="https://github.com/sveltejs/kit">
       <img src={github} alt="GitHub" />
-    </a>
+    </a> -->
   </div>
 </header>
 

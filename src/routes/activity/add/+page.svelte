@@ -6,11 +6,11 @@
     conversion_factor: -1,
   };
   let activity_factors = [
-    { id: 1, value: 1.0, name: "1,00" },
-    { id: 2, value: 0.75, name: "0,75" },
-    { id: 3, value: 0.5, name: "0,50" },
-    { id: 4, value: 0.25, name: "0,25" },
-    { id: 5, value: 0.1, name: "0,10" },
+    { id: 1, value: 5.0, name: "5" },
+    { id: 2, value: 4.0, name: "4" },
+    { id: 3, value: 3.0, name: "3" },
+    { id: 4, value: 2.0, name: "2" },
+    { id: 5, value: 1.0, name: "1" },
   ];
   async function submit() {
     if (ActivityDTO.conversion_factor >= 0.1) {

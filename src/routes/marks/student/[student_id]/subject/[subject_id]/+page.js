@@ -2,7 +2,7 @@
 export function load({ params }) {
   // console.log(params);
   return {
-    class_id: params.slug,
-    subject_id: params.id,
+    student_id: params.student_id,
+    subject_id: params.subject_id,
   };
 }

@@ -25,6 +25,7 @@
   let chosenSchoolClassId;
   let chosenSubjectId;
   let selectSubjects = [];
+  let studentId;
   onMount(async () => {
     let userReceived = localStorage.getItem("user");
     if (userReceived) {
@@ -46,10 +47,8 @@
         chosenSchoolClassId
       );
     } else if (roleModeType.studentMode) {
-      // TODO DO ZMIANY
-      // let userID = 1;
-      let studentId = await getStudentId($user.id);
-      console.log(studentId);
+      studentId = await getStudentId($user.id);
+      // console.log(studentId);
       selectSubjects = await getSubjectsAssignedToThisStudent(studentId);
     }
   }
@@ -74,15 +73,18 @@
     return classesArray;
   }
   function onSubmit() {
-    if (roleMode.adminMode) {
+    console.log(chosenSubjectId);
+    if (chosenSubjectId == "") {
+      alert("Wybierz przedmiot");
+      return;
+    }
+    if (roleMode.teacherMode) {
+      chosenSubjectId = $user.subjectId;
+    }
+    if (roleMode.adminMode || roleMode.teacherMode) {
       goto(`marks/class/${chosenSchoolClassId}/subject/${chosenSubjectId}`);
-    } else if (roleMode.teacherMode) {
-      //TODO WEZ SUBJECT ID Z LOCAL STORAGE
-      // chosenSubjectId = localStorage.get('teacher_subject_id')
-      // goto(`marks/class/${chosenSchoolClassId}/subject/${chosenSubjectId}`);
     } else if (roleMode.studentMode) {
-      //TODO WEZ STUDENT_ID Z LOCAL STORAGE
-      //goto(`marks/class/${studentId}/subject/${chosenSubjectId}`);
+      goto(`marks/student/${studentId}/subject/${chosenSubjectId}`);
     }
   }
 </script>
@@ -117,4 +119,3 @@
     <button type="submit">Pokaż oceny</button>
   </form>
 </div>
-<!-- <div>ELO</div> -->

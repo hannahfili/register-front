@@ -15,4 +15,5 @@ export const user = writable({
   isStudent: false,
   subjectId: null,
   schoolClassId: null,
+  email: null,
 });
