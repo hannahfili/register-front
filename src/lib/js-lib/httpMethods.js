@@ -198,7 +198,7 @@ export async function genericPut(
   let halfUrl = route + "/" + id;
   let url = apiAddress.concat(halfUrl);
   url = addOptionalParameters(url, optionalParameters);
-
+  console.log(bodyToJsonize);
   let fetchData = {
     method: "PUT",
     body: JSON.stringify(bodyToJsonize),

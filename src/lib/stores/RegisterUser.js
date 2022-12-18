@@ -143,9 +143,10 @@ export async function putUser(id, userDto) {
   }
 }
 export async function getUserById(id) {
+  let route = `/get_user_by_id/${id}`;
   let getUserByIdResult;
   try {
-    getUserByIdResult = await genericGetById("/users", id);
+    getUserByIdResult = await genericGetAll(route);
   } catch (err) {
     handleError(err, "pobieranie Użytkownika na podstawie ID");
   }

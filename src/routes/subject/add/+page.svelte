@@ -17,7 +17,6 @@
   onMount(async () => {
     teachers = await getTeachersNotAssignedToAnySubject();
     teachers = teachers.data;
-    console.log(teachers);
   });
 
   async function createSubjectAndRedirect() {

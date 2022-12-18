@@ -49,14 +49,15 @@
     console.log($user.token);
     localStorage.setItem("user", JSON.stringify($user));
     if ($user.isTeacher) {
-      let subject = await getSubjectIdAssignedToThisTeacher($user.id);
-      $user.subjectId = subject;
+      // let subject = await getSubjectIdAssignedToThisTeacher($user.id);
+      $user.subjectId = userDTO.subject_id;
     }
     if ($user.isStudent) {
       let schoolClass = await getClassAssignedToThisStudent($user.id);
       $user.schoolClassId = schoolClass;
     }
     localStorage.setItem("user", JSON.stringify($user));
+    console.log($user);
   }
 </script>
 

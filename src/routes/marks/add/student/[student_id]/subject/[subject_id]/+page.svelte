@@ -8,6 +8,7 @@
   import { getSubjectById } from "$lib/stores/Subject";
   import { createMark } from "$lib/stores/Marks";
   import { goto } from "$app/navigation";
+  import MarkForm from "$lib/components/MarkForm.svelte";
   let studentUserId;
   let subjectId;
   let activities = [];
@@ -40,13 +41,12 @@
     studentUserId = data.student_id;
     subjectId = data.subject_id;
     activities = await getAllActivities();
-    studentData = await getUserById(studentUserId);
-    subjectData = await getSubjectById(subjectId);
     console.log(studentData);
+    studentData = await getUserById(studentUserId);
+    // console.log(studentData);
+    subjectData = await getSubjectById(subjectId);
   });
   async function validateAndSubmit() {
-    console.log(markDTO.value);
-    console.log(markDTO.activity_id);
     markDTO.user_student_id = studentUserId;
     markDTO.subject_id = subjectId;
     markDTO.moderator_id = $user.id;
@@ -60,25 +60,12 @@
   }
 </script>
 
-<div>
-  <div>DODAJ OCENĘ</div>
-  <div>Przedmiot: {subjectData.name}</div>
-  <div>Uczeń: {studentData.name} {studentData.surname}</div>
-  <form on:submit|preventDefault={async () => await validateAndSubmit()}>
-    <div>
-      <label for="mark-activity">Rodzaj aktywności</label>
-      <select bind:value={markDTO.activity_id}>
-        {#each activities as activity}
-          <option value={activity.id}>{activity.name}</option>
-        {/each}
-      </select>
-      <label for="school-class-name">Ocena</label>
-      <select bind:value={markDTO.value}>
-        {#each marks_values as mark_value}
-          <option value={mark_value.value}>{mark_value.name}</option>
-        {/each}
-      </select>
-    </div>
-    <button type="submit">Wyślij</button>
-  </form>
-</div>
+<MarkForm
+  bind:markDTO
+  {subjectData}
+  {studentData}
+  {activities}
+  {marks_values}
+  validateAndSubmit={async () => validateAndSubmit()}
+  updateMode={false}
+/>

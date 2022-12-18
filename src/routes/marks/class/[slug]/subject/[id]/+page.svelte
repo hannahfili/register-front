@@ -60,6 +60,7 @@
     Waga: "activity.conversion_factor",
     Wartość: "value",
     Wystawiono: "mark_datetime",
+    Edytowano: "updated_at",
   };
   function addHandler(event) {}
   function addMark(studentId) {
@@ -68,7 +69,7 @@
   }
 
   function detailHandler(event) {
-    // goto(`/class/details/${event.detail.row.id}`);
+    goto(`/marks/update/${event.detail.row.id}`);
   }
   function showSubjectMarksOfChosenSchoolClass(event) {
     // let url = `/class/${schoolClassId}/subject/${event.detail.row.id}/show_marks`;

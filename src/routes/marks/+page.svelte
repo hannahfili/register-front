@@ -57,6 +57,7 @@
       schoolClasses = schoolClasses.data;
     } else if (roleModeType.teacherMode) {
       let teacherId = await getTeacherId($user.id);
+      console.log($user);
       schoolClasses = await getTeacherClasses($user.subjectId);
       console.log(schoolClasses);
     }

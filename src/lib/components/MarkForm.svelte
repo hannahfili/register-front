@@ -1,0 +1,51 @@
+<script>
+  export let markDTO = {};
+  export let subjectData = {
+    name: "",
+  };
+  export let studentData = {
+    name: "",
+    surname: "",
+  };
+  export let validateAndSubmit = async () => {};
+  export let activities = [];
+  export let marks_values = [];
+  export let updateMode;
+</script>
+
+<div>
+  {#if updateMode}
+    <div>EDYTUJ OCENĘ</div>
+  {:else}
+    <div>DODAJ OCENĘ</div>
+  {/if}
+  <div>Przedmiot: {subjectData.name}</div>
+  <div>Uczeń: {studentData.name} {studentData.surname}</div>
+  <form on:submit|preventDefault={async () => await validateAndSubmit()}>
+    <div>
+      <label for="mark-activity">Rodzaj aktywności</label>
+      <select bind:value={markDTO.activity_id} disabled={updateMode}>
+        {#each activities as activity}
+          <option value={activity.id}>{activity.name}</option>
+        {/each}
+      </select>
+      <label for="school-class-name">Ocena</label>
+      <select bind:value={markDTO.value}>
+        {#each marks_values as mark_value}
+          <option value={mark_value.value}>{mark_value.name}</option>
+        {/each}
+      </select>
+    </div>
+    {#if updateMode}
+      <div>
+        <label for="modification-reason">Powód modyfikacji</label>
+        <textarea
+          maxlength="199"
+          bind:value={markDTO.modification_reason}
+          required
+        />
+      </div>
+    {/if}
+    <button type="submit">Wyślij</button>
+  </form>
+</div>

@@ -41,11 +41,12 @@ export async function putMark(id, markDto) {
   let response;
   try {
     response = await genericPut(ROUTE, id, markDto);
-    return await response.json();
+    console.log(response);
   } catch (err) {
     handleError(err, "edycja oceny");
     return err;
   }
+  return await response.json();
 }
 export async function getMarkById(id) {
   let response;
