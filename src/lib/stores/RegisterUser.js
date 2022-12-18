@@ -4,6 +4,7 @@ import {
   genericDelete,
   genericPut,
   genericGetById,
+  genericPostWithoutBody,
 } from "$lib/js-lib/httpMethods.js";
 import { handleError } from "../js-lib/errors";
 import { genericLogIn } from "../js-lib/httpMethods";
@@ -25,6 +26,16 @@ export async function logIn(userDto) {
     return await response.json();
   } catch (err) {
     handleError(err, "logowanie użytkownika");
+    return err;
+  }
+}
+export async function logOut() {
+  let response;
+  try {
+    response = await genericPostWithoutBody("/logout");
+    return await response.json();
+  } catch (err) {
+    handleError(err, "wylogowanie użytkownika");
     return err;
   }
 }
