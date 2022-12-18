@@ -156,7 +156,7 @@ export async function genericDeleteWithAdditionalParam(route) {
     method: "DELETE",
     headers: new Headers({
       "content-type": "application/json",
-      // authorization: `Bearer ${token}`,
+      authorization: `Bearer ${token}`,
     }),
   };
 

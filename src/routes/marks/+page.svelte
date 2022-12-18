@@ -20,7 +20,6 @@
     studentMode: false,
     adminMode: false,
   };
-  let token;
   let selectSchoolClasses = [];
   let chosenSchoolClassId;
   let chosenSubjectId;
@@ -48,7 +47,6 @@
       );
     } else if (roleModeType.studentMode) {
       studentId = await getStudentId($user.id);
-      // console.log(studentId);
       selectSubjects = await getSubjectsAssignedToThisStudent(studentId);
     }
   }
@@ -58,8 +56,9 @@
       schoolClasses = await getAllClasses();
       schoolClasses = schoolClasses.data;
     } else if (roleModeType.teacherMode) {
-      let teacherId = await getTeacherId(token);
-      schoolClasses = await getTeacherClasses(teacherId);
+      let teacherId = await getTeacherId($user.id);
+      schoolClasses = await getTeacherClasses($user.subjectId);
+      console.log(schoolClasses);
     }
     return schoolClasses;
   }
@@ -73,14 +72,18 @@
     return classesArray;
   }
   function onSubmit() {
-    console.log(chosenSubjectId);
     if (chosenSubjectId == "") {
       alert("Wybierz przedmiot");
+      return;
+    }
+    if (chosenSchoolClassId == "") {
+      alert("Wybierz klasę");
       return;
     }
     if (roleMode.teacherMode) {
       chosenSubjectId = $user.subjectId;
     }
+    // console.log(chosenSubjectId);
     if (roleMode.adminMode || roleMode.teacherMode) {
       goto(`marks/class/${chosenSchoolClassId}/subject/${chosenSubjectId}`);
     } else if (roleMode.studentMode) {

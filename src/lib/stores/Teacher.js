@@ -40,9 +40,9 @@ export async function getSubjectIdAssignedToThisTeacher(teacherUserId) {
     return null;
   }
 }
-export async function getTeacherClasses(teacherId) {
+export async function getTeacherClasses(subjectId) {
   let response;
-  let route = `/teacher/${teacherId}/get_classes`;
+  let route = `/teacher/subject/${subjectId}/get_classes`;
   try {
     response = await genericGetAll(route);
   } catch (err) {
@@ -52,6 +52,6 @@ export async function getTeacherClasses(teacherId) {
     return null;
   } else {
     let json = await response.json();
-    return json.data.sclasses;
+    return json.data;
   }
 }

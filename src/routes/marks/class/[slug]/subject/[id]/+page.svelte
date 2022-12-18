@@ -7,6 +7,7 @@
   import { getStudentMarksOfParticularSubject } from "$lib/stores/Student";
   import { onMount } from "svelte";
   import { getSubjectById } from "$lib/stores/Subject";
+  import { goto } from "$app/navigation";
   import {
     getClassById,
     showNameRelatedToCurrentYear,
@@ -15,6 +16,7 @@
     getClassMarksOfParticularSubjectDividedByStudents,
     deleteMark,
   } from "$lib/stores/Marks";
+  import { getTeacherAssignedToThisSubject } from "$lib/stores/Subject";
   let thisClassAndSubjectMarks = [];
   let classId;
   let subjectId;
@@ -25,6 +27,13 @@
   let subjectInfo = {
     name: "",
   };
+  let teacherData = {
+    user: {
+      name: "",
+      surname: "",
+    },
+  };
+  let chosen;
   onMount(async () => {
     let userReceived = localStorage.getItem("user");
     if (userReceived) {
@@ -34,8 +43,6 @@
     subjectId = data.subject_id;
     subjectInfo = await getSubjectById(subjectId);
     classInfo = await getClassById(classId);
-    // console.log(subjectInfo);
-    console.log(classInfo);
     thisClassAndSubjectMarks =
       await getClassMarksOfParticularSubjectDividedByStudents(
         classId,
@@ -45,7 +52,7 @@
       classInfo.class_start,
       classInfo.name
     );
-    // console.log(thisClassAndSubjectMarks);
+    teacherData = await getTeacherAssignedToThisSubject(subjectId);
   });
   const headerDictionary = {
     "Email moderatora": "moderator.email",
@@ -54,8 +61,10 @@
     Wartość: "value",
     Wystawiono: "mark_datetime",
   };
-  function addHandler(event) {
-    goto(`/marks/student/`);
+  function addHandler(event) {}
+  function addMark(studentId) {
+    // console.log(studentId);
+    goto(`/marks/add/student/${studentId}/subject/${subjectId}`);
   }
 
   function detailHandler(event) {
@@ -94,33 +103,42 @@
       <td>Przedmiot</td>
       <td>{subjectInfo.name}</td>
     </tr>
+    <tr>
+      <td>Nauczyciel prowadzący</td>
+      <td>{teacherData.user.name} {teacherData.user.surname}</td>
+    </tr>
     <tr> Oceny </tr>
   </table>
-  <!-- <tr> -->
-  {#each thisClassAndSubjectMarks as item}
-    <table id="student-data">
-      <tr>
-        <td>Uczeń</td>
-        <td>{item.student.name} {item.student.surname}</td>
-      </tr>
-    </table>
-    <div id="student-marks">
-      <BaseList
-        collection={item.marks}
-        firstButtonName={"Edytuj"}
-        firstButtonVisibility={true}
-        secondButtonName={"Usuń"}
-        secondButtonVisibility={true}
-        {headerDictionary}
-        addNewVisibility={true}
-        addNewName={"Dodaj nową ocenę"}
-        on:listAdd={addHandler}
-        on:listDetail={detailHandler}
-        on:listDelete={deleteHandler}
-        on:listDeleteSelected={deleteSelectedHandler}
-      />
-    </div>
-  {/each}
+  <div id="student-data">
+    {#each thisClassAndSubjectMarks as item}
+      <table>
+        <tr>
+          <td>Uczeń</td>
+          <td>{item.student.name} {item.student.surname}</td>
+        </tr>
+        <button on:click={() => addMark(item.student.id)}
+          >Dodaj nową ocenę</button
+        >
+      </table>
+      <div id="student-marks">
+        <BaseList
+          collection={item.marks}
+          firstButtonName={"Edytuj"}
+          firstButtonVisibility={true}
+          secondButtonName={"Usuń"}
+          secondButtonVisibility={true}
+          {headerDictionary}
+          addNewVisibility={false}
+          addNewName={""}
+          on:listAdd={addHandler}
+          on:listDetail={detailHandler}
+          on:listDelete={deleteHandler}
+          on:listDeleteSelected={deleteSelectedHandler}
+        />
+      </div>
+    {/each}
+  </div>
+
   <!-- </tr> -->
 </div>
 
