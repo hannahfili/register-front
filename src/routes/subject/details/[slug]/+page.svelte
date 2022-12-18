@@ -72,7 +72,7 @@
   function addHandler(event) {}
 
   function detailHandler(event) {
-    goto(`/subject/${subjectId}/class/${event.detail.row.id}`);
+    goto(`/marks/class/${event.detail.row.id}/subject/${subjectId}`);
   }
   async function assignClassHandler(event) {
     if (

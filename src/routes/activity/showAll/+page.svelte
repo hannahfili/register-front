@@ -22,14 +22,9 @@
 
   function addHandler(event) {
     goto(`/activity/add`);
-    // window.location.href("/user/add");
   }
 
-  function detailHandler(event) {
-    // let url = `/class/details/${event.detail.row.id}`;
-    // window.open(url, "_blank").focus();
-    // goto(`/class/details/${event.detail.row.id}`);
-  }
+  function detailHandler(event) {}
 
   async function deleteHandler(event) {
     if (confirm("Czy na pewno chcesz usunąć wybraną aktywność?")) {
@@ -41,10 +36,7 @@
     }
   }
 
-  function deleteSelectedHandler(event) {
-    // alert("Usuń ");
-    // console.log(event.detail.rows);
-  }
+  function deleteSelectedHandler(event) {}
 </script>
 
 <BaseList

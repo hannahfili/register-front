@@ -90,11 +90,9 @@ export async function genericPostWithoutBody(route) {
   let token = getUserToken();
   let response;
   let url = apiAddress.concat(route);
-  // url = addOptionalParameters(url, optionalParameters);
 
   let fetchData = {
     method: "POST",
-    // body: JSON.stringify(bodyToJsonize),
     headers: new Headers({
       "content-type": "application/json",
       authorization: `Bearer ${token}`,

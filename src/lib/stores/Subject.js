@@ -15,7 +15,6 @@ export async function createSubject(subjectDTO) {
     delete subjectDTO.description;
   }
   let response;
-  //   console.log(subjectDTO);
   try {
     response = await genericPost(ROUTE, subjectDTO);
   } catch (err) {

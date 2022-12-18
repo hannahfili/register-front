@@ -64,19 +64,12 @@
   };
   function addHandler(event) {}
   function addMark(studentId) {
-    // console.log(studentId);
     goto(`/marks/add/student/${studentId}/subject/${subjectId}`);
   }
 
   function detailHandler(event) {
     goto(`/marks/update/${event.detail.row.id}`);
   }
-  function showSubjectMarksOfChosenSchoolClass(event) {
-    // let url = `/class/${schoolClassId}/subject/${event.detail.row.id}/show_marks`;
-    // window.open(url, "_blank").focus();
-    // goto(`/class/${schoolClassId}/subject/${event.detail.row.id}/show_marks`);
-  }
-
   async function deleteHandler(event) {
     if (confirm("Czy na pewno chcesz usunąć wybraną ocenę?")) {
       let deleteResult = await deleteMark(event.detail.row.id, $user.id);
@@ -88,10 +81,7 @@
     }
   }
 
-  function deleteSelectedHandler(event) {
-    // alert("Usuń ");
-    // console.log(event.detail.rows);
-  }
+  function deleteSelectedHandler(event) {}
 </script>
 
 <div>

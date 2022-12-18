@@ -48,29 +48,14 @@
       schoolClassId
     );
     console.log(subjectsAssignedToThisClass);
-    // for (let student of students) {
-    //   let studentForDisplay = {
-    //     id: student.id,
-    //     name: student.user.name,
-    //     surname: student.user.surname,
-    //     email: student.user.email,
-    //   };
-    //   studentsForDisplay.push(studentForDisplay);
-    // }
-    // console.log(studentsForDisplay);
-    // console.log(studentsForDisplay.length);
   });
   function addHandler(event) {
     goto(`/student/assign_to_class/${schoolClassId}`);
   }
 
-  function detailHandler(event) {
-    // goto(`/class/details/${event.detail.row.id}`);
-  }
+  function detailHandler(event) {}
   function showSubjectMarksOfChosenSchoolClass(event) {
-    // let url = `/class/${schoolClassId}/subject/${event.detail.row.id}/show_marks`;
-    // window.open(url, "_blank").focus();
-    goto(`/class/${schoolClassId}/subject/${event.detail.row.id}/show_marks`);
+    goto(`/marks/class/${schoolClassId}/subject/${event.detail.row.id}`);
   }
 
   async function deleteHandler(event) {
@@ -83,10 +68,7 @@
     }
   }
 
-  function deleteSelectedHandler(event) {
-    // alert("Usuń ");
-    // console.log(event.detail.rows);
-  }
+  function deleteSelectedHandler(event) {}
 </script>
 
 <div>

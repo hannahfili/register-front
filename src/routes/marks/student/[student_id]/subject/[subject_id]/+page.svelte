@@ -21,10 +21,8 @@
       $user = JSON.parse(userReceived);
     }
     studentId = data.student_id;
-    // console.log(studentId);
     subjectId = data.subject_id;
     userDTO = await getUserById($user.id);
-    // console.log(userDTO);
     thisSubjectMarks = await getStudentMarksOfParticularSubject(
       userDTO.id,
       subjectId
@@ -35,12 +33,21 @@
   });
   function countAverage() {
     let sum = 0;
+    let factors_sum = 0;
     for (let i = 0; i < thisSubjectMarks.length; i++) {
       sum =
         sum +
         thisSubjectMarks[i].activity.conversion_factor *
           thisSubjectMarks[i].value;
+      factors_sum =
+        factors_sum +
+        parseFloat(thisSubjectMarks[i].activity.conversion_factor);
+      console.log(thisSubjectMarks[i].activity.conversion_factor);
     }
+    console.log(factors_sum);
+    let srednia = sum / factors_sum;
+    console.log(srednia);
+    if (factors_sum != 0) return Math.round((sum / factors_sum) * 100) / 100;
     return sum;
   }
   let headerDictionary = {

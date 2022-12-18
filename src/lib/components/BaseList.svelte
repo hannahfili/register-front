@@ -66,7 +66,6 @@
       if (result == null) return "";
       result = Reflect.get(result, props[i]);
     }
-    // console.log(result);
     return result ?? "";
   }
 </script>

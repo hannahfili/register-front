@@ -39,7 +39,6 @@
     console.log(notAssignedStudents);
   });
   async function assignSelectedStudents(event) {
-    // alert("Przypisz ");
     console.log(event.detail.rows);
     let assignResult = await assignManyStudentsToClass(
       event.detail.rows,

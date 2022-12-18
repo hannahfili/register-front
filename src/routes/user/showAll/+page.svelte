@@ -34,7 +34,6 @@
 
   function addHandler(event) {
     goto(`/user/add`);
-    // window.location.href("/user/add");
   }
 
   function detailHandler(event) {

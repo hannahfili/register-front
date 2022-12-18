@@ -164,22 +164,3 @@ export async function getUserById(id) {
   let json = await getUserByIdResult.json();
   return json.data;
 }
-// export async function putBuildingAddress(
-//   id,
-//   buldingAddressDTO,
-//   optionalParameters = null
-// ) {
-//   let response;
-//   try {
-//     response = await genericPut(
-//       "/BuildingAddress",
-//       id,
-//       buldingAddressDTO,
-//       optionalParameters
-//     );
-//     return response;
-//   } catch (err) {
-//     handleError(err, "edycja Adresu Budynku");
-//     return err;
-//   }
-// }

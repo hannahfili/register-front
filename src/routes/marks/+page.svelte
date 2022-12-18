@@ -84,7 +84,6 @@
     if (roleMode.teacherMode) {
       chosenSubjectId = $user.subjectId;
     }
-    // console.log(chosenSubjectId);
     if (roleMode.adminMode || roleMode.teacherMode) {
       goto(`marks/class/${chosenSchoolClassId}/subject/${chosenSubjectId}`);
     } else if (roleMode.studentMode) {

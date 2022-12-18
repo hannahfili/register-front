@@ -43,7 +43,6 @@
     activities = await getAllActivities();
     console.log(studentData);
     studentData = await getUserById(studentUserId);
-    // console.log(studentData);
     subjectData = await getSubjectById(subjectId);
   });
   async function validateAndSubmit() {

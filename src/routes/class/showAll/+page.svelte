@@ -43,13 +43,11 @@
 
   function addHandler(event) {
     goto(`/class/add`);
-    // window.location.href("/user/add");
   }
 
   function detailHandler(event) {
     let url = `/class/details/${event.detail.row.id}`;
     window.open(url, "_blank").focus();
-    // goto(`/class/details/${event.detail.row.id}`);
   }
 
   async function deleteHandler(event) {

@@ -1,5 +1,3 @@
-// import { getSubjectAssignedToThisTeacher } from "../stores/Teacher";
-// import { getClassAssignedToThisStudent } from "../stores/Student";
 import { handleError } from "../js-lib/errors";
 import {
   genericPost,

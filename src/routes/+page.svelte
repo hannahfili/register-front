@@ -28,13 +28,6 @@
     let token = extractToken(loginRes.data);
     console.log(token);
     await setGlobalVars(token);
-    // console.log($user_token);
-    // console.log($user_isAdmin);
-    // console.log($user_isStudent);
-    // console.log($user_isTeacher);
-    // console.log($subject_id);
-    // console.log($school_class_id);
-    // console.log($user_id);
   }
   async function setGlobalVars(userToken) {
     let userDTO = await getUserAssignedToToken(userToken);
@@ -49,7 +42,6 @@
     console.log($user.token);
     localStorage.setItem("user", JSON.stringify($user));
     if ($user.isTeacher) {
-      // let subject = await getSubjectIdAssignedToThisTeacher($user.id);
       $user.subjectId = userDTO.subject_id;
     }
     if ($user.isStudent) {

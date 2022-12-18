@@ -37,7 +37,7 @@
     const dateCopy = new Date(startDate);
     dateCopy.setFullYear(dateCopy.getFullYear() + 4);
     let dd = String(dateCopy.getDate()).padStart(2, "0");
-    let mm = String(dateCopy.getMonth() + 1).padStart(2, "0"); //January is 0!
+    let mm = String(dateCopy.getMonth() + 1).padStart(2, "0");
     let yyyy = dateCopy.getFullYear();
     endDate = yyyy + "-" + mm + "-" + dd;
   }

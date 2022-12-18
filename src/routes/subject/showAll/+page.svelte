@@ -21,11 +21,9 @@
 
   function addHandler(event) {
     goto(`/subject/add`);
-    // window.location.href("/user/add");
   }
 
   function detailHandler(event) {
-    // goto(`/subject/details/${event.detail.row.id}`);
     let url = `/subject/details/${event.detail.row.id}`;
     window.open(url, "_blank").focus();
   }
