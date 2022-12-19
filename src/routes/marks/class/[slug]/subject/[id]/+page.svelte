@@ -85,6 +85,7 @@
 </script>
 
 <div>
+  <a href="/marks">Powrót</a>
   <table>
     <tr>
       <th>Klasa</th>

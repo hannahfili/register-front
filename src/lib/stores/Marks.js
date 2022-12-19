@@ -67,7 +67,31 @@ export async function getClassMarksOfParticularSubjectDividedByStudents(
   try {
     response = await genericGetAll(route);
   } catch (err) {
-    handleError(err, "pobieranie ocen danej klasy z podziałem na uczniów");
+    handleError(
+      err,
+      "pobieranie ocen danej klasy z danego przedmiotu z podziałem na uczniów"
+    );
+  }
+  if (response instanceof Error) {
+    return null;
+  } else {
+    let json = await response.json();
+    return json.data;
+  }
+}
+export async function getClassMarksModificationsOfParticularSubjectDividedByStudents(
+  classId,
+  subjectId
+) {
+  let response;
+  let route = `/marks_modifications/class/${classId}/subject/${subjectId}`;
+  try {
+    response = await genericGetAll(route);
+  } catch (err) {
+    handleError(
+      err,
+      "pobieranie historii modyfikacji ocen danej klasy z danego przedmiotu z podziałem na uczniów"
+    );
   }
   if (response instanceof Error) {
     return null;

@@ -59,6 +59,9 @@
   }
 </script>
 
+<div>
+  <a href="/marks">Powrót</a>
+</div>
 <MarkForm
   bind:markDTO
   {subjectData}

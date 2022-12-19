@@ -67,6 +67,7 @@
   function deleteSelectedHandler(event) {}
 </script>
 
+<a href="/marks">Powrót</a>
 <div id="student-marks-subject-data">
   <table>
     <tr>
