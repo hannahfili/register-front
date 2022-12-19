@@ -68,8 +68,10 @@
     <a href="/activity/showAll">Aktywności</a>
   {:else if $user && $user.isTeacher}
     <a href="/marks">Oceny moich klas</a>
+    <a href="/marks_modifications">Modyfikacje ocen moich klas</a>
   {:else if $user && $user.isStudent}
     <a href="/marks">Moje oceny</a>
+    <a href="/marks_modifications">Modyfikacje moich ocen</a>
   {:else}
     <LoginForm bind:UserDto onSubmit={async () => await tryToLogIn(UserDto)} />
   {/if}

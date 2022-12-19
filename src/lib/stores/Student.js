@@ -96,3 +96,21 @@ export async function getStudentMarksOfParticularSubject(
     return null;
   }
 }
+export async function getStudentMarksModificationsOfParticularSubject(
+  userStudentId,
+  subjectId
+) {
+  let response;
+  let route = `/marks_modifications/student/${userStudentId}/subject/${subjectId}`;
+  try {
+    response = await genericGetAll(route);
+    let json = await response.json();
+    return json.data;
+  } catch (err) {
+    handleError(
+      err,
+      "pobieranie historii modyfikacji ocen wybranego ucznia z wybranego przedmiotu"
+    );
+    return null;
+  }
+}
