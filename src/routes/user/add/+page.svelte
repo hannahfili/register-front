@@ -22,7 +22,7 @@
   }
 </script>
 
-<div>
+<div class="centered">
   <a href="/user/showAll">Wszyscy Użytkownicy</a>
   <UserForm
     updateMode={false}
@@ -30,3 +30,11 @@
     onSubmit={async () => createUserAndRedirect()}
   />
 </div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>

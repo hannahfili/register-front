@@ -25,7 +25,7 @@
 
   function detailHandler(event) {
     let url = `/subject/details/${event.detail.row.id}`;
-    window.open(url, "_blank").focus();
+    goto(url);
   }
 
   async function deleteHandler(event) {
@@ -46,6 +46,7 @@
 </script>
 
 <BaseList
+  listName={"Wszystkie przedmioty"}
   {collection}
   firstButtonName={"Szczegóły"}
   firstButtonVisibility={true}

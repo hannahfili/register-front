@@ -96,7 +96,7 @@
   <form on:submit|preventDefault={() => onSubmit()}>
     {#if roleMode.adminMode || roleMode.teacherMode}
       <div>
-        Wybierz klasę:
+        <label for="select">Wybierz klasę:</label>
         <select
           bind:value={chosenSchoolClassId}
           on:change={async () => getSubjectsForSelect(roleMode)}
@@ -110,7 +110,7 @@
     {/if}
     {#if roleMode.adminMode || roleMode.studentMode}
       <div>
-        Wybierz przedmiot:
+        <label for="select">Wybierz przedmiot:</label>
         <select bind:value={chosenSubjectId}>
           <option value="" selected disabled hidden>Wybierz</option>
           {#each selectSubjects as subject}
@@ -122,3 +122,47 @@
     <button type="submit">Pokaż oceny</button>
   </form>
 </div>
+
+<style>
+  form {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+  }
+
+  input,
+  select {
+    margin: 10px 0;
+    width: 100%;
+  }
+  label {
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  button {
+    background-color: #3498db;
+    color: white;
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  .error {
+    color: red;
+    background-color: #ffdddd;
+    padding: 5px;
+  }
+  select {
+    color: #3498db;
+    background-color: #ddddff;
+    border-color: #3498db;
+    box-shadow: 0 0 10px #3498db;
+  }
+  input,
+  select,
+  button {
+    border-radius: 10px;
+    padding: 5px;
+  }
+</style>

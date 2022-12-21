@@ -111,6 +111,13 @@
     border: var(--size) solid transparent;
     border-top: var(--size) solid var(--color-theme-1);
   }
+  a {
+    all: initial;
+  }
+  a {
+    color: var(--color-theme-1);
+    text-decoration: none;
+  }
 
   nav a {
     display: flex;
@@ -128,5 +135,9 @@
 
   a:hover {
     color: var(--color-theme-1);
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 </style>

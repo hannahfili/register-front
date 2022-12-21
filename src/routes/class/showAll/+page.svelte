@@ -47,7 +47,7 @@
 
   function detailHandler(event) {
     let url = `/class/details/${event.detail.row.id}`;
-    window.open(url, "_blank").focus();
+    goto(url);
   }
 
   async function deleteHandler(event) {
@@ -67,6 +67,7 @@
 </script>
 
 <BaseList
+  listName={"Lista klas"}
   collection={collection_copy}
   firstButtonName={"Szczegóły"}
   firstButtonVisibility={true}

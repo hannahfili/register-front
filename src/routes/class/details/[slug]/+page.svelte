@@ -71,17 +71,27 @@
   function deleteSelectedHandler(event) {}
 </script>
 
-<div>
-  <a href="/class/showAll">Wszystkie klasy</a>
+<div class="centered">
+  <a href="/class/showAll">Powrót</a>
   <div>
-    Klasa: {schoolClassNameForDisplay}
-    <br />
-    Data rozpoczęcia: {schoolClass.class_start}
-    <br />
-    Data zakończenia: {schoolClass.class_end}
-    <br />
-    Uczniowe:
+    <div class="school-class-info">
+      <table>
+        <tr>
+          <td class="info-category">Klasa</td>
+          <td>{schoolClassNameForDisplay}</td>
+        </tr>
+        <tr>
+          <td class="info-category">Data rozpoczęcia:</td>
+          <td>{schoolClass.class_start}</td>
+        </tr>
+        <tr>
+          <td class="info-category">Data zakończenia:</td>
+          <td>{schoolClass.class_end}</td>
+        </tr>
+      </table>
+    </div>
     <BaseList
+      listName={"Uczniowie przypisani do klasy"}
       collection={students}
       firstButtonName={"Szczegóły"}
       firstButtonVisibility={false}
@@ -95,10 +105,8 @@
       on:listDelete={deleteHandler}
       on:listDeleteSelected={deleteSelectedHandler}
     />
-    <br />
-    Przedmioty przypisane do klasy:
-    <br />
     <BaseList
+      listName={"Przedmioty przypisane do klasy"}
       collection={subjectsAssignedToThisClass}
       firstButtonName={"Oceny"}
       firstButtonVisibility={true}
@@ -114,3 +122,20 @@
     />
   </div>
 </div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .school-class-info {
+    background-color: #a1cdeb;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+  }
+  .info-category {
+    font-weight: bold;
+  }
+</style>

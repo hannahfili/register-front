@@ -85,35 +85,31 @@
 </script>
 
 <div>
-  <a href="/marks">Powrót</a>
-  <table>
-    <tr>
-      <th>Klasa</th>
-      <th>{classDisplayName}</th>
-    </tr>
-    <tr>
-      <td>Przedmiot</td>
-      <td>{subjectInfo.name}</td>
-    </tr>
-    <tr>
-      <td>Nauczyciel prowadzący</td>
-      <td>{teacherData.user.name} {teacherData.user.surname}</td>
-    </tr>
-    <tr> Oceny </tr>
-  </table>
-  <div id="student-data">
-    {#each thisClassAndSubjectMarks as item}
-      <table>
-        <tr>
-          <td>Uczeń</td>
-          <td>{item.student.name} {item.student.surname}</td>
-        </tr>
-        <button on:click={() => addMark(item.student.id)}
-          >Dodaj nową ocenę</button
-        >
-      </table>
+  <div class="upper-info centered">
+    <a href="/marks">Powrót</a>
+    <h1>Oceny klasy {classDisplayName}</h1>
+    <table class="table-marks-info">
+      <tr>
+        <td><h3>Przedmiot</h3></td>
+        <td><h4>{subjectInfo.name}</h4></td>
+      </tr>
+      <tr>
+        <td><h3>Nauczyciel prowadzący</h3></td>
+        <td><h4>{teacherData.user.name} {teacherData.user.surname}</h4></td>
+      </tr>
+    </table>
+  </div>
+
+  {#each thisClassAndSubjectMarks as item}
+    <div class="student-data centered">
+      <button on:click={() => addMark(item.student.id)}>Dodaj nową ocenę</button
+      >
       <div id="student-marks">
         <BaseList
+          listName={"Oceny ucznia: " +
+            item.student.name +
+            " " +
+            item.student.surname}
           collection={item.marks}
           firstButtonName={"Edytuj"}
           firstButtonVisibility={true}
@@ -128,17 +124,46 @@
           on:listDeleteSelected={deleteSelectedHandler}
         />
       </div>
-    {/each}
-  </div>
+    </div>
+    <div class="break" />
+  {/each}
 
   <!-- </tr> -->
 </div>
 
 <style>
-  #student-data {
-    background-color: aquamarine;
+  .student-data {
+    background-color: #bcd6e8;
+    padding: 25px;
+    margin-top: 20px;
+    border-radius: 5px;
   }
-  #student-marks {
-    background-color: bisque;
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  button {
+    border: none;
+    background-color: #3498db;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #2980b9;
+  }
+  .upper-info {
+    background-color: #bcd6e8;
+    border-radius: 5px;
+    padding: 5px;
+  }
+  .table-marks-info {
+    padding: 5px;
+  }
+  td {
+    padding-right: 20px;
   }
 </style>

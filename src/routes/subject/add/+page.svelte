@@ -39,7 +39,7 @@
   }
 </script>
 
-<div>
+<div class="centered">
   <a href="/subject/showAll">Wszystkie przedmioty</a>
   <SubjectForm
     updateMode={false}
@@ -49,3 +49,11 @@
     onSubmit={async () => createSubjectAndRedirect()}
   />
 </div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>

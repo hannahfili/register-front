@@ -57,6 +57,7 @@
 </script>
 
 <BaseList
+  listName="Wszyscy użytkownicy"
   collection={collection_copy}
   {headerDictionary}
   firstButtonName={"Edytuj"}
