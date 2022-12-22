@@ -65,9 +65,9 @@
   };
 </script>
 
-<div>
-  <button on:click={() => returnToDetails()}>Powrót</button>
-  <div>
+<div class="centered">
+  <a href={`/class/details/${schoolClassId}`}>Powrót</a>
+  <div class="class-info">
     Klasa: {schoolClassNameForDisplay}
     <br />
     Data rozpoczęcia: {schoolClass.class_start}
@@ -76,7 +76,10 @@
     <br />
   </div>
   {#if displayStudents}
-    Możesz przypisać poniższych uczniów do tej klasy:
+    <div class="you-can-info">
+      Możesz przypisać poniższych uczniów do tej klasy:
+    </div>
+
     <AssignStudentsList
       collection={notAssignedStudents}
       firstButtonName={""}
@@ -92,7 +95,38 @@
       on:listAssignSelected={assignSelectedStudents}
     />
   {:else}
-    NIE MOŻNA PRZYPISAĆ UCZNIÓW -> Wszyscy istniejący uczniowe są przypisani do
-    jakiejś klasy
+    <div class="you-cannot-info">
+      NIE MOŻNA PRZYPISAĆ UCZNIÓW -> Wszyscy istniejący uczniowe są przypisani
+      do jakiejś klasy
+    </div>
   {/if}
 </div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .class-info {
+    background-color: #c3c7ca;
+    padding: 25px;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
+  .you-can-info {
+    background-color: #c3c7ca;
+    padding: 25px;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
+  .you-cannot-info {
+    /* background-color: #c3c7ca; */
+    border: 1px solid #c3c7ca;
+    padding: 25px;
+    margin-top: 20px;
+    border-radius: 5px;
+    color: red;
+    font-weight: bold;
+  }
+</style>

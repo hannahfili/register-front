@@ -15,12 +15,21 @@
 
 <div>
   {#if updateMode}
-    <div>EDYTUJ OCENĘ</div>
+    <div><h1>EDYTUJ OCENĘ</h1></div>
   {:else}
-    <div>DODAJ OCENĘ</div>
+    <div><h1>DODAJ OCENĘ</h1></div>
   {/if}
-  <div>Przedmiot: {subjectData.name}</div>
-  <div>Uczeń: {studentData.name} {studentData.surname}</div>
+  <table class="subject-info">
+    <tr>
+      <td class="subject-title">Przedmiot</td>
+      <td>{subjectData.name}</td>
+    </tr>
+    <tr>
+      <td class="subject-title">Uczeń</td>
+      <td>{studentData.name} {studentData.surname}</td>
+    </tr>
+  </table>
+
   <form on:submit|preventDefault={async () => await validateAndSubmit()}>
     <div>
       <label for="mark-activity">Rodzaj aktywności</label>
@@ -49,3 +58,58 @@
     <button type="submit">Wyślij</button>
   </form>
 </div>
+
+<style>
+  form {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+  }
+  .subject-info {
+    background-color: #c3c7ca;
+    padding: 25px;
+    margin-top: 20px;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  input,
+  select {
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  button {
+    background-color: #3498db;
+    color: white;
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  .error {
+    color: red;
+    background-color: #ffdddd;
+    padding: 5px;
+  }
+  select {
+    color: #3498db;
+    background-color: #ddddff;
+    border-color: #3498db;
+    box-shadow: 0 0 10px #3498db;
+  }
+  input,
+  select,
+  button {
+    border-radius: 10px;
+    padding: 5px;
+  }
+  label {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .subject-title {
+    font-weight: bold;
+  }
+</style>

@@ -45,18 +45,29 @@
   }
 </script>
 
-<BaseList
-  listName={"Wszystkie przedmioty"}
-  {collection}
-  firstButtonName={"Szczegóły"}
-  firstButtonVisibility={true}
-  secondButtonName={"Usuń"}
-  secondButtonVisibility={true}
-  {headerDictionary}
-  addNewVisibility={true}
-  addNewName={"Dodaj nowy przedmiot"}
-  on:listAdd={addHandler}
-  on:listDetail={detailHandler}
-  on:listDelete={deleteHandler}
-  on:listDeleteSelected={deleteSelectedHandler}
-/>
+<div class="centered">
+  <a href="/">Powrót</a>
+  <BaseList
+    listName={"Wszystkie przedmioty"}
+    {collection}
+    firstButtonName={"Szczegóły"}
+    firstButtonVisibility={true}
+    secondButtonName={"Usuń"}
+    secondButtonVisibility={true}
+    {headerDictionary}
+    addNewVisibility={true}
+    addNewName={"Dodaj nowy przedmiot"}
+    on:listAdd={addHandler}
+    on:listDetail={detailHandler}
+    on:listDelete={deleteHandler}
+    on:listDeleteSelected={deleteSelectedHandler}
+  />
+</div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>

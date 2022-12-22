@@ -92,7 +92,8 @@
   }
 </script>
 
-<div>
+<div class="centered">
+  <a href="/">Powrót</a>
   <form on:submit|preventDefault={() => onSubmit()}>
     {#if roleMode.adminMode || roleMode.teacherMode}
       <div>
@@ -164,5 +165,10 @@
   button {
     border-radius: 10px;
     padding: 5px;
+  }
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 </style>

@@ -12,7 +12,16 @@
   }
 </script>
 
-<div>
-  <a href="/class/showAll">Wszyscy klasy</a>
+<div class="centered">
+  <a href="/class/showAll">Wszystkie klasy</a>
   <ClassForm bind:ClassDTO onSubmit={async () => createClassAndRedirect()} />
 </div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+</style>

@@ -11,7 +11,7 @@
   let userDTO;
   let studentId;
   let subjectId;
-  let marks_average;
+  let marks_average = 0;
   let subjectInfo = {
     name: "",
   };
@@ -52,8 +52,8 @@
   }
   let headerDictionary = {
     "ID oceny": "id",
-    "Wystawił: imię": "moderator.name",
-    "Wystawił: nazwisko": "moderator.surname",
+    "Email moderatora": "moderator.email",
+    // "Wystawił: nazwisko": "moderator.surname",
     "Rodzaj aktywności": "activity.name",
     Wartość: "value",
     Waga: "activity.conversion_factor",
@@ -67,34 +67,71 @@
   function deleteSelectedHandler(event) {}
 </script>
 
-<a href="/marks">Powrót</a>
-<div id="student-marks-subject-data">
+<div class="centered">
+  <a href="/marks">Powrót</a>
+  <!-- <div id="student-marks-subject-data">
   <table>
     <tr>
       <td>Przedmiot:</td>
       <td>{subjectInfo.name}</td>
     </tr>
   </table>
+</div> -->
+  <div class="marks">
+    <BaseList
+      listName={"Moje oceny z przedmiotu: " + subjectInfo.name}
+      collection={thisSubjectMarks}
+      firstButtonName={""}
+      firstButtonVisibility={false}
+      secondButtonName={""}
+      secondButtonVisibility={false}
+      {headerDictionary}
+      addNewVisibility={false}
+      addNewName={""}
+      on:listAdd={addHandler}
+      on:listDetail={detailHandler}
+      on:listDelete={deleteHandler}
+      on:listDeleteSelected={deleteSelectedHandler}
+    />
+  </div>
+
+  <div id="student-marks-average">
+    <table>
+      <tr>
+        <td>Średnia ocen:</td>
+        <td id="average">{marks_average}</td>
+      </tr>
+    </table>
+  </div>
 </div>
-<BaseList
-  collection={thisSubjectMarks}
-  firstButtonName={""}
-  firstButtonVisibility={false}
-  secondButtonName={""}
-  secondButtonVisibility={false}
-  {headerDictionary}
-  addNewVisibility={false}
-  addNewName={""}
-  on:listAdd={addHandler}
-  on:listDetail={detailHandler}
-  on:listDelete={deleteHandler}
-  on:listDeleteSelected={deleteSelectedHandler}
-/>
-<div id="student-marks-average">
-  <table>
-    <tr>
-      <td>Średnia ocen:</td>
-      <td>{marks_average}</td>
-    </tr>
-  </table>
-</div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  td {
+    padding-right: 20px;
+  }
+  .marks {
+    background-color: #bcd6e8;
+    padding: 25px;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
+  #student-marks-average {
+    /* background-color: #c4be4c; */
+    border: 2px solid;
+    border-color: #0d2e48;
+    padding: 25px;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  #average {
+    color: red;
+    font-size: 25px;
+  }
+</style>

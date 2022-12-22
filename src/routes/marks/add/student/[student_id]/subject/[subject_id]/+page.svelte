@@ -59,15 +59,23 @@
   }
 </script>
 
-<div>
+<div class="centered">
   <a href="/marks">Powrót</a>
+  <MarkForm
+    bind:markDTO
+    {subjectData}
+    {studentData}
+    {activities}
+    {marks_values}
+    validateAndSubmit={async () => validateAndSubmit()}
+    updateMode={false}
+  />
 </div>
-<MarkForm
-  bind:markDTO
-  {subjectData}
-  {studentData}
-  {activities}
-  {marks_values}
-  validateAndSubmit={async () => validateAndSubmit()}
-  updateMode={false}
-/>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>

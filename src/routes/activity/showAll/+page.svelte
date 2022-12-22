@@ -39,17 +39,29 @@
   function deleteSelectedHandler(event) {}
 </script>
 
-<BaseList
-  {collection}
-  firstButtonName={""}
-  firstButtonVisibility={false}
-  secondButtonName={"Usuń"}
-  secondButtonVisibility={true}
-  {headerDictionary}
-  addNewVisibility={true}
-  addNewName={"Dodaj"}
-  on:listAdd={addHandler}
-  on:listDetail={detailHandler}
-  on:listDelete={deleteHandler}
-  on:listDeleteSelected={deleteSelectedHandler}
-/>
+<div class="centered">
+  <a href="/">Powrót</a>
+  <BaseList
+    listName="Aktywności"
+    {collection}
+    firstButtonName={""}
+    firstButtonVisibility={false}
+    secondButtonName={"Usuń"}
+    secondButtonVisibility={true}
+    {headerDictionary}
+    addNewVisibility={true}
+    addNewName={"Dodaj"}
+    on:listAdd={addHandler}
+    on:listDetail={detailHandler}
+    on:listDelete={deleteHandler}
+    on:listDeleteSelected={deleteSelectedHandler}
+  />
+</div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>

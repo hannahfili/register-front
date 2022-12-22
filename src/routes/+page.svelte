@@ -54,7 +54,7 @@
 </script>
 
 <svelte:head>
-  <title>Home</title>
+  <title>E-dziennik</title>
   <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
@@ -105,4 +105,6 @@
     top: 0;
     display: block;
   }
+  
 </style>
+

@@ -86,7 +86,7 @@
 
 <div>
   <div class="upper-info centered">
-    <a href="/marks">Powrót</a>
+    <!-- <a href="/marks">Powrót</a> -->
     <h1>Oceny klasy {classDisplayName}</h1>
     <table class="table-marks-info">
       <tr>

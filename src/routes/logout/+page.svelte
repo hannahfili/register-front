@@ -22,4 +22,11 @@
   });
 </script>
 
-<div>Wylogowano</div>
+<div class="centered"><h1>Wylogowano</h1></div>
+
+<style>
+  .centered {
+    padding: 150px 0;
+    text-align: center;
+  }
+</style>

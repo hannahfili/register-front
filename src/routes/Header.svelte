@@ -1,15 +1,13 @@
 <script>
   import { page } from "$app/stores";
-  import logo from "$lib/images/svelte-logo.svg";
   import github from "$lib/images/github.svg";
   import { user } from "../lib/js-lib/user_info";
+  import logo from "$lib/images/e-dziennik-logo.png";
 </script>
 
 <header>
   <div class="corner">
-    <!-- <a href="https://kit.svelte.dev">
-      <img src={logo} alt="SvelteKit" />
-    </a> -->
+    <img src={logo} alt="E-dziennik logo" />
   </div>
 
   <nav>
@@ -29,6 +27,7 @@
         </li>
       {/if}
     </ul>
+
     <svg viewBox="0 0 2 3" aria-hidden="true">
       <path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
     </svg>
@@ -48,8 +47,8 @@
   }
 
   .corner {
-    width: 3em;
-    height: 3em;
+    width: 10em;
+    height: 10em;
   }
 
   .corner a {
@@ -61,9 +60,10 @@
   }
 
   .corner img {
-    width: 2em;
-    height: 2em;
+    width: 100%;
+    height: auto;
     object-fit: contain;
+    filter: brightness(92%);
   }
 
   nav {
