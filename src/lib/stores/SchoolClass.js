@@ -22,8 +22,6 @@ export function showNameRelatedToCurrentYear(class_start, class_name) {
   }
   var ageDate = new Date(ageDifMs); // miliseconds from epoch
   let years = Math.abs(ageDate.getUTCFullYear() - 1970);
-
-  // console.log(years);
   return years + 1 + " " + class_name;
 }
 export async function dischargeStudentFromClass(studentId) {

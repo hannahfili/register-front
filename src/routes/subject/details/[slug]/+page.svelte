@@ -72,7 +72,7 @@
   function addHandler(event) {}
 
   function detailHandler(event) {
-    goto(`/subject/${subjectId}/class/${event.detail.row.id}`);
+    goto(`/marks/class/${event.detail.row.id}/subject/${subjectId}`);
   }
   async function assignClassHandler(event) {
     if (
@@ -105,20 +105,38 @@
   function deleteSelectedHandler(event) {}
 </script>
 
-<div>
-  <a href="/subject/showAll">Wszystkie przedmioty</a>
-  <div>
+<div class="centered">
+  <a href="/subject/showAll">Powrót</a>
+  <!-- <div>
     Przedmiot: {subject.name}
     <br />
     Opis: {subject.description}
     <br />
     Nauczyciel: {teacherUser.name}
     {teacherUser.surname}
+  </div> -->
+  <div>
+    <div class="subject-info">
+      <table>
+        <tr>
+          <td class="info-category">Przedmiot</td>
+          <td>{subject.name}</td>
+        </tr>
+        <tr>
+          <td class="info-category">Opis:</td>
+          <td>{subject.description}</td>
+        </tr>
+        <tr>
+          <td class="info-category">Nauczyciel:</td>
+          <td>{teacherUser.name} {teacherUser.surname}</td>
+        </tr>
+      </table>
+    </div>
   </div>
 
   <div>
-    Klasy przypisane do przedmiotu:
     <BaseList
+      listName={"Klasy przypisane do przedmiotu:"}
       collection={classesAssignedToTheSubjectCopy}
       firstButtonName={"Przejdź do ocen"}
       firstButtonVisibility={true}
@@ -134,8 +152,8 @@
     />
   </div>
   <div>
-    Klasy nieprzypisane do przedmiotu:
     <BaseList
+      listName={"Klasy nieprzypisane do przedmiotu:"}
       collection={classesNOTAssignedToTheSubjectCopy}
       firstButtonName={"Przypisz klasę do przedmiotu"}
       firstButtonVisibility={true}
@@ -159,3 +177,20 @@
     </div>
   {/if}
 </div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .subject-info {
+    background-color: #a1cdeb;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+  }
+  .info-category {
+    font-weight: bold;
+  }
+</style>

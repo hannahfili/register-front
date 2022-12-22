@@ -1,7 +1,9 @@
-// import { getSubjectAssignedToThisTeacher } from "../stores/Teacher";
-// import { getClassAssignedToThisStudent } from "../stores/Student";
 import { handleError } from "../js-lib/errors";
-import { genericPost } from "./httpMethods.js";
+import {
+  genericPost,
+  genericGetUserByToken,
+  genericGetAll,
+} from "./httpMethods.js";
 
 function isEmpty(obj) {
   return Object.keys(obj).length === 0;
@@ -18,22 +20,37 @@ export function addOptionalParameters(url, parametersDictionary) {
   );
   return urlWithParameters;
 }
-export function setRoleMode(userToken) {
-  // TODO PRZY LOGOWANIU
+export function setRoleMode(user) {
   let roleMode = {
-    teacherMode: false,
-    studentMode: false,
-    adminMode: true,
+    teacherMode: user.isTeacher,
+    studentMode: user.isStudent,
+    adminMode: user.isAdmin,
   };
   return roleMode;
 }
 export async function getTeacherId(userId) {
-  //TODO PRZY LOGOWANIU
-  return 1;
+  let response;
+  let route = `/user/${userId}/get_teacher_id`;
+  try {
+    response = await genericGetAll(route);
+    let json = await response.json();
+    return json.data;
+  } catch (err) {
+    handleError(err, "pobieranie ID nauczyciela, którym jest użytkownik");
+    return null;
+  }
 }
 export async function getStudentId(userId) {
-  //TODO przy logowaniu
-  return 1;
+  let response;
+  let route = `/user/${userId}/get_student_id`;
+  try {
+    response = await genericGetAll(route);
+    let json = await response.json();
+    return json.data;
+  } catch (err) {
+    handleError(err, "pobieranie ID ucznia, którym jest użytkownik");
+    return null;
+  }
 }
 export function extractToken(token) {
   let pipeIndex = token.indexOf("|");
@@ -46,7 +63,7 @@ export async function getUserAssignedToToken(tokenValue) {
     token: tokenValue,
   };
   try {
-    response = await genericPost("/user_assigned_to_token", tokenDTO);
+    response = await genericGetUserByToken("/user_assigned_to_token", tokenDTO);
     return await response.json();
   } catch (err) {
     handleError(err, "pobieranie danych użytkownika na podstawie tokenu");

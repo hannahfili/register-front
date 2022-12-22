@@ -43,13 +43,11 @@
 
   function addHandler(event) {
     goto(`/class/add`);
-    // window.location.href("/user/add");
   }
 
   function detailHandler(event) {
     let url = `/class/details/${event.detail.row.id}`;
-    window.open(url, "_blank").focus();
-    // goto(`/class/details/${event.detail.row.id}`);
+    goto(url);
   }
 
   async function deleteHandler(event) {
@@ -68,17 +66,29 @@
   }
 </script>
 
-<BaseList
-  collection={collection_copy}
-  firstButtonName={"Szczegóły"}
-  firstButtonVisibility={true}
-  secondButtonName={"Usuń"}
-  secondButtonVisibility={true}
-  {headerDictionary}
-  addNewVisibility={true}
-  addNewName={"Dodaj"}
-  on:listAdd={addHandler}
-  on:listDetail={detailHandler}
-  on:listDelete={deleteHandler}
-  on:listDeleteSelected={deleteSelectedHandler}
-/>
+<div class="centered">
+  <a href="/">Powrót</a>
+  <BaseList
+    listName={"Lista klas"}
+    collection={collection_copy}
+    firstButtonName={"Szczegóły"}
+    firstButtonVisibility={true}
+    secondButtonName={"Usuń"}
+    secondButtonVisibility={true}
+    {headerDictionary}
+    addNewVisibility={true}
+    addNewName={"Dodaj"}
+    on:listAdd={addHandler}
+    on:listDetail={detailHandler}
+    on:listDelete={deleteHandler}
+    on:listDeleteSelected={deleteSelectedHandler}
+  />
+</div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>

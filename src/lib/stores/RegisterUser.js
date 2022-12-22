@@ -4,8 +4,10 @@ import {
   genericDelete,
   genericPut,
   genericGetById,
+  genericPostWithoutBody,
 } from "$lib/js-lib/httpMethods.js";
 import { handleError } from "../js-lib/errors";
+import { genericLogIn } from "../js-lib/httpMethods";
 
 // let UserDto = {
 //   id: 0,
@@ -20,10 +22,20 @@ import { handleError } from "../js-lib/errors";
 export async function logIn(userDto) {
   let response;
   try {
-    response = await genericPost("/login", userDto);
+    response = await genericLogIn("/login", userDto);
     return await response.json();
   } catch (err) {
     handleError(err, "logowanie użytkownika");
+    return err;
+  }
+}
+export async function logOut() {
+  let response;
+  try {
+    response = await genericPostWithoutBody("/logout");
+    return await response.json();
+  } catch (err) {
+    handleError(err, "wylogowanie użytkownika");
     return err;
   }
 }
@@ -142,31 +154,13 @@ export async function putUser(id, userDto) {
   }
 }
 export async function getUserById(id) {
+  let route = `/get_user_by_id/${id}`;
   let getUserByIdResult;
   try {
-    getUserByIdResult = await genericGetById("/users", id);
+    getUserByIdResult = await genericGetAll(route);
   } catch (err) {
     handleError(err, "pobieranie Użytkownika na podstawie ID");
   }
   let json = await getUserByIdResult.json();
   return json.data;
 }
-// export async function putBuildingAddress(
-//   id,
-//   buldingAddressDTO,
-//   optionalParameters = null
-// ) {
-//   let response;
-//   try {
-//     response = await genericPut(
-//       "/BuildingAddress",
-//       id,
-//       buldingAddressDTO,
-//       optionalParameters
-//     );
-//     return response;
-//   } catch (err) {
-//     handleError(err, "edycja Adresu Budynku");
-//     return err;
-//   }
-// }

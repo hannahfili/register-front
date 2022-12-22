@@ -1,26 +1,14 @@
 <script>
   import { onMount } from "svelte";
-  // import { user } from "../../stores";
-  // import {
-  //   user_token,
-  //   user_isAdmin,
-  //   user_isStudent,
-  //   user_isTeacher,
-  //   subject_id,
-  //   school_class_id,
-  //   user_id,
-  // } from "../../lib/js-lib/user_info.js";
   import { user } from "../../lib/js-lib/user_info.js";
-  onMount(() => {
-    // if ($user_token) {
-    //   $user_token = null;
-    //   $user_isAdmin = null;
-    //   $user_isStudent = null;
-    //   $user_isTeacher = null;
-    //   $subject_id = null;
-    //   $school_class_id = null;
-    //   $user_id = null;
-    // }
+  import { logOut } from "$lib/stores/RegisterUser.js";
+  onMount(async () => {
+    let userReceived = localStorage.getItem("user");
+    if (userReceived) {
+      $user = JSON.parse(userReceived);
+    }
+    let loggedOut = await logOut();
+    console.log(loggedOut);
     if ($user) {
       $user.id = null;
       $user.token = null;
@@ -34,4 +22,11 @@
   });
 </script>
 
-<div>Wylogowano</div>
+<div class="centered"><h1>Wylogowano</h1></div>
+
+<style>
+  .centered {
+    padding: 150px 0;
+    text-align: center;
+  }
+</style>

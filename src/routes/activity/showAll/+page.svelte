@@ -22,14 +22,9 @@
 
   function addHandler(event) {
     goto(`/activity/add`);
-    // window.location.href("/user/add");
   }
 
-  function detailHandler(event) {
-    // let url = `/class/details/${event.detail.row.id}`;
-    // window.open(url, "_blank").focus();
-    // goto(`/class/details/${event.detail.row.id}`);
-  }
+  function detailHandler(event) {}
 
   async function deleteHandler(event) {
     if (confirm("Czy na pewno chcesz usunąć wybraną aktywność?")) {
@@ -41,23 +36,32 @@
     }
   }
 
-  function deleteSelectedHandler(event) {
-    // alert("Usuń ");
-    // console.log(event.detail.rows);
-  }
+  function deleteSelectedHandler(event) {}
 </script>
 
-<BaseList
-  {collection}
-  firstButtonName={""}
-  firstButtonVisibility={false}
-  secondButtonName={"Usuń"}
-  secondButtonVisibility={true}
-  {headerDictionary}
-  addNewVisibility={true}
-  addNewName={"Dodaj"}
-  on:listAdd={addHandler}
-  on:listDetail={detailHandler}
-  on:listDelete={deleteHandler}
-  on:listDeleteSelected={deleteSelectedHandler}
-/>
+<div class="centered">
+  <a href="/">Powrót</a>
+  <BaseList
+    listName="Aktywności"
+    {collection}
+    firstButtonName={""}
+    firstButtonVisibility={false}
+    secondButtonName={"Usuń"}
+    secondButtonVisibility={true}
+    {headerDictionary}
+    addNewVisibility={true}
+    addNewName={"Dodaj"}
+    on:listAdd={addHandler}
+    on:listDetail={detailHandler}
+    on:listDelete={deleteHandler}
+    on:listDeleteSelected={deleteSelectedHandler}
+  />
+</div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>

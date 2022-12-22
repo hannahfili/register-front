@@ -75,7 +75,7 @@
 {#if addNewVisibility}
   <button on:click={onAdd}>Dodaj</button>
 {/if}
-<table>
+<table class="styled-table">
   <tr>
     <th>
       <input
@@ -113,3 +113,81 @@
 {#if collection.length == 0}
   Brak rekordów
 {/if}
+
+<style>
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
+  .styled-table {
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+
+  .styled-table td,
+  .styled-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  .styled-table td,
+  .styled-table th {
+    text-align: left;
+  }
+
+  .styled-table th {
+    font-weight: bold;
+  }
+
+  .styled-table th {
+    background-color: #f2f2f2;
+  }
+
+  .styled-table tr:hover {
+    background-color: #f5f5f5;
+  }
+
+  .category-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 auto;
+    display: flex;
+    justify-content: left;
+    padding: 15px;
+  }
+
+  .no-records {
+    color: red;
+  }
+
+  button {
+    border: none;
+    background-color: #3498db;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #2980b9;
+  }
+  button.add-new {
+    border: none;
+    background-color: #3498db;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (max-width: 800px) {
+    .styled-table {
+      width: 100%;
+    }
+  }
+</style>

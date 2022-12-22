@@ -24,12 +24,15 @@
   onMount(async () => {
     userToUpdateId = data.id;
     UserDtoFromGet = await getUserById(userToUpdateId);
-    delete UserDtoFromGet.isAdmin;
-    delete UserDtoFromGet.isTeacher;
-    delete UserDtoFromGet.isStudent;
+    // delete UserDtoFromGet.isAdmin;
+    // delete UserDtoFromGet.isTeacher;
+    // delete UserDtoFromGet.isStudent;
     UserDtoForUpdate = Object.assign({}, UserDtoFromGet);
   });
   async function updateUserAndRedirect() {
+    delete UserDtoForUpdate.isAdmin;
+    delete UserDtoForUpdate.isTeacher;
+    delete UserDtoForUpdate.isStudent;
     try {
       PostPreparationUserDtoForUpadte = prepareUserDtoForUpdate(
         UserDtoFromGet,
@@ -53,7 +56,7 @@
   }
 </script>
 
-<div>
+<div class="centered">
   <a href="/user/showAll">Wszyscy Użytkownicy</a>
   <UserForm
     updateMode={true}
@@ -61,3 +64,11 @@
     onSubmit={async () => await updateUserAndRedirect()}
   />
 </div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>

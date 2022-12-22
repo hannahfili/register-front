@@ -1,5 +1,4 @@
 <script>
-  // import Counter from "./Counter.svelte";
   import Header from "./Header.svelte";
   import welcome from "$lib/images/svelte-welcome.webp";
   import welcome_fallback from "$lib/images/svelte-welcome.png";
@@ -24,42 +23,38 @@
 
   async function tryToLogIn(userDTO) {
     let loginRes = await logIn(userDTO);
+    console.log(loginRes);
     if (loginRes instanceof Error) return;
     let token = extractToken(loginRes.data);
+    console.log(token);
     await setGlobalVars(token);
-    // console.log($user_token);
-    // console.log($user_isAdmin);
-    // console.log($user_isStudent);
-    // console.log($user_isTeacher);
-    // console.log($subject_id);
-    // console.log($school_class_id);
-    // console.log($user_id);
   }
   async function setGlobalVars(userToken) {
     let userDTO = await getUserAssignedToToken(userToken);
+    console.log(userDTO);
     userDTO = userDTO.data;
     $user.id = userDTO.id;
     $user.token = userToken;
     $user.isAdmin = userDTO.isAdmin;
     $user.isTeacher = userDTO.isTeacher;
     $user.isStudent = userDTO.isStudent;
+    $user.email = userDTO.email;
     console.log($user.token);
+    localStorage.setItem("user", JSON.stringify($user));
     if ($user.isTeacher) {
-      let subject = await getSubjectIdAssignedToThisTeacher($user.id);
-      // $subject_id = subject;
-      $user.subjectId = subject;
+      $user.subjectId = userDTO.subject_id;
     }
     if ($user.isStudent) {
       let schoolClass = await getClassAssignedToThisStudent($user.id);
-      // $school_class_id = schoolClass;
       $user.schoolClassId = schoolClass;
     }
     localStorage.setItem("user", JSON.stringify($user));
+    console.log($user);
   }
 </script>
 
 <svelte:head>
-  <title>Home</title>
+  <title>E-dziennik</title>
   <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
@@ -72,9 +67,11 @@
     <a href="/marks_modifications">Modyfikacje ocen</a>
     <a href="/activity/showAll">Aktywności</a>
   {:else if $user && $user.isTeacher}
-    <div>hi</div>
+    <a href="/marks">Oceny moich klas</a>
+    <a href="/marks_modifications">Modyfikacje ocen moich klas</a>
   {:else if $user && $user.isStudent}
-    <div>hello</div>
+    <a href="/marks">Moje oceny</a>
+    <a href="/marks_modifications">Modyfikacje moich ocen</a>
   {:else}
     <LoginForm bind:UserDto onSubmit={async () => await tryToLogIn(UserDto)} />
   {/if}
@@ -108,4 +105,6 @@
     top: 0;
     display: block;
   }
+  
 </style>
+

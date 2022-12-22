@@ -53,7 +53,18 @@ export async function assignOneStudentToClass(studentId, classId) {
   }
   return await response.json();
 }
-export async function getSubjectsAssignedToThisStudent(studentId) {}
+export async function getSubjectsAssignedToThisStudent(studentId) {
+  let response;
+  let route = `/student/${studentId}/assigned_subjects`;
+  try {
+    response = await genericGetAll(route);
+    let json = await response.json();
+    return json.data;
+  } catch (err) {
+    handleError(err, "pobieranie przedmiotów, które realizuje uczeń");
+    return null;
+  }
+}
 
 export async function getClassAssignedToThisStudent(studentUserId) {
   let response;
@@ -66,6 +77,39 @@ export async function getClassAssignedToThisStudent(studentUserId) {
     handleError(
       err,
       "pobieranie klasy, do której przypisany jest wybrany uczeń"
+    );
+    return null;
+  }
+}
+export async function getStudentMarksOfParticularSubject(
+  userStudentId,
+  subjectId
+) {
+  let response;
+  let route = `/marks/student/${userStudentId}/subject/${subjectId}`;
+  try {
+    response = await genericGetAll(route);
+    let json = await response.json();
+    return json.data;
+  } catch (err) {
+    handleError(err, "pobieranie ocen wybranego ucznia z wybranego przedmiotu");
+    return null;
+  }
+}
+export async function getStudentMarksModificationsOfParticularSubject(
+  userStudentId,
+  subjectId
+) {
+  let response;
+  let route = `/marks_modifications/student/${userStudentId}/subject/${subjectId}`;
+  try {
+    response = await genericGetAll(route);
+    let json = await response.json();
+    return json.data;
+  } catch (err) {
+    handleError(
+      err,
+      "pobieranie historii modyfikacji ocen wybranego ucznia z wybranego przedmiotu"
     );
     return null;
   }

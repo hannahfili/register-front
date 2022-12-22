@@ -9,6 +9,7 @@
   import { getAllClasses } from "../../lib/stores/SchoolClass";
   import { getTeacherClasses } from "../../lib/stores/Teacher";
   import { getSubjectsAssignedToThisStudent } from "../../lib/stores/Student";
+  import { user } from "../../lib/js-lib/user_info.js";
   import {
     showNameRelatedToCurrentYear,
     getSubjectsAssignedToThisClass,
@@ -19,16 +20,25 @@
     studentMode: false,
     adminMode: false,
   };
-  let token;
   let selectSchoolClasses = [];
   let chosenSchoolClassId;
   let chosenSubjectId;
   let selectSubjects = [];
+  let studentId;
   onMount(async () => {
-    token = "123"; //TODO == POBIERZ TOKEN Z LOCALSTORAGE
-    roleMode = setRoleMode(token);
+    let userReceived = localStorage.getItem("user");
+    if (userReceived) {
+      $user = JSON.parse(userReceived);
+    } else {
+      goto(`/`);
+      return;
+    }
+    roleMode = setRoleMode($user);
     selectSchoolClasses = await getSchoolClassesForSelect(roleMode);
     selectSchoolClasses = prepareSchoolClassesNames(selectSchoolClasses);
+    if (roleMode.studentMode) {
+      await getSubjectsForSelect(roleMode);
+    }
   });
   async function getSubjectsForSelect(roleModeType) {
     if (roleModeType.adminMode) {
@@ -36,9 +46,7 @@
         chosenSchoolClassId
       );
     } else if (roleModeType.studentMode) {
-      // TODO DO ZMIANY
-      let userID = 1;
-      let studentId = await getStudentId(userID);
+      studentId = await getStudentId($user.id);
       selectSubjects = await getSubjectsAssignedToThisStudent(studentId);
     }
   }
@@ -48,8 +56,10 @@
       schoolClasses = await getAllClasses();
       schoolClasses = schoolClasses.data;
     } else if (roleModeType.teacherMode) {
-      let teacherId = await getTeacherId(token);
-      schoolClasses = await getTeacherClasses(teacherId);
+      let teacherId = await getTeacherId($user.id);
+      console.log($user);
+      schoolClasses = await getTeacherClasses($user.subjectId);
+      console.log(schoolClasses);
     }
     return schoolClasses;
   }
@@ -63,24 +73,31 @@
     return classesArray;
   }
   function onSubmit() {
-    if (roleMode.adminMode) {
+    if (chosenSubjectId == "") {
+      alert("Wybierz przedmiot");
+      return;
+    }
+    if (chosenSchoolClassId == "") {
+      alert("Wybierz klasę");
+      return;
+    }
+    if (roleMode.teacherMode) {
+      chosenSubjectId = $user.subjectId;
+    }
+    if (roleMode.adminMode || roleMode.teacherMode) {
       goto(`marks/class/${chosenSchoolClassId}/subject/${chosenSubjectId}`);
-    } else if (roleMode.teacherMode) {
-      //TODO WEZ SUBJECT ID Z LOCAL STORAGE
-      // chosenSubjectId = localStorage.get('teacher_subject_id')
-      // goto(`marks/class/${chosenSchoolClassId}/subject/${chosenSubjectId}`);
     } else if (roleMode.studentMode) {
-      //TODO WEZ STUDENT_ID Z LOCAL STORAGE
-      //goto(`marks/class/${studentId}/subject/${chosenSubjectId}`);
+      goto(`marks/student/${studentId}/subject/${chosenSubjectId}`);
     }
   }
 </script>
 
-<div>
+<div class="centered">
+  <a href="/">Powrót</a>
   <form on:submit|preventDefault={() => onSubmit()}>
     {#if roleMode.adminMode || roleMode.teacherMode}
       <div>
-        Wybierz klasę:
+        <label for="select">Wybierz klasę:</label>
         <select
           bind:value={chosenSchoolClassId}
           on:change={async () => getSubjectsForSelect(roleMode)}
@@ -94,7 +111,7 @@
     {/if}
     {#if roleMode.adminMode || roleMode.studentMode}
       <div>
-        Wybierz przedmiot:
+        <label for="select">Wybierz przedmiot:</label>
         <select bind:value={chosenSubjectId}>
           <option value="" selected disabled hidden>Wybierz</option>
           {#each selectSubjects as subject}
@@ -106,4 +123,52 @@
     <button type="submit">Pokaż oceny</button>
   </form>
 </div>
-<!-- <div>ELO</div> -->
+
+<style>
+  form {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+  }
+
+  input,
+  select {
+    margin: 10px 0;
+    width: 100%;
+  }
+  label {
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  button {
+    background-color: #3498db;
+    color: white;
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  .error {
+    color: red;
+    background-color: #ffdddd;
+    padding: 5px;
+  }
+  select {
+    color: #3498db;
+    background-color: #ddddff;
+    border-color: #3498db;
+    box-shadow: 0 0 10px #3498db;
+  }
+  input,
+  select,
+  button {
+    border-radius: 10px;
+    padding: 5px;
+  }
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>

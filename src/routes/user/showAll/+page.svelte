@@ -34,7 +34,6 @@
 
   function addHandler(event) {
     goto(`/user/add`);
-    // window.location.href("/user/add");
   }
 
   function detailHandler(event) {
@@ -57,17 +56,29 @@
   }
 </script>
 
-<BaseList
-  collection={collection_copy}
-  {headerDictionary}
-  firstButtonName={"Edytuj"}
-  firstButtonVisibility={true}
-  secondButtonName={"Usuń"}
-  secondButtonVisibility={true}
-  addNewVisibility={true}
-  addNewName={"Dodaj"}
-  on:listAdd={addHandler}
-  on:listDetail={detailHandler}
-  on:listDelete={deleteHandler}
-  on:listDeleteSelected={deleteSelectedHandler}
-/>
+<div class="centered">
+  <a href="/">Powrót</a>
+  <BaseList
+    listName="Wszyscy użytkownicy"
+    collection={collection_copy}
+    {headerDictionary}
+    firstButtonName={"Edytuj"}
+    firstButtonVisibility={true}
+    secondButtonName={"Usuń"}
+    secondButtonVisibility={true}
+    addNewVisibility={true}
+    addNewName={"Dodaj"}
+    on:listAdd={addHandler}
+    on:listDetail={detailHandler}
+    on:listDelete={deleteHandler}
+    on:listDeleteSelected={deleteSelectedHandler}
+  />
+</div>
+
+<style>
+  .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
